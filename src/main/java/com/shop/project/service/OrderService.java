@@ -1,5 +1,6 @@
 package com.shop.project.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,9 @@ public class OrderService {
 		
 		Map<Order,List<OrderProduct>> orderMap = new HashMap<Order,List<OrderProduct>>();
 		
-		List<Order> orderList = orderRepository.getAllToList();
+		List<Order> orderList = new ArrayList<Order>();
+		orderRepository.findAll().forEach(order -> orderList.add(order));
+		
 		orderList.forEach(order -> {
 			List<OrderProduct> orderProductList = orderProductRepository.findByOrderId(order.getId());
 			orderMap.put(order, orderProductList);
