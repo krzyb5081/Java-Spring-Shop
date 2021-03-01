@@ -22,6 +22,10 @@ public class ShoppingCartService {
 	
 	public void setOrderProductByProductId(long productId, int quantity) {
 		
+		if(quantity<1) {
+			removeOrderProductByProductId(productId);
+		}
+		
 		List<OrderProduct> orderProductList = shoppingCart.getList();
 		
 		for(OrderProduct orderProductFromList : orderProductList) {

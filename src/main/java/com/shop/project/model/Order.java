@@ -16,6 +16,8 @@ public class Order {
 	private long userId;
 	private String status;
 	
+	private OrderProduct;
+	
 	
 	public long getId() {
 		return id;

@@ -24,7 +24,7 @@ public class ShoppingCartController {
 	
 	
 	@PostMapping("/addProductToCart")
-	public String setProduct(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
+	public String setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
 		shoppingCartService.setOrderProductByProductId(productId, quantity);
 		return"redirect:/show";
 	}
