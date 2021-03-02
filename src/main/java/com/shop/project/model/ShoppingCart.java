@@ -12,14 +12,13 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCart {
 
-	private List<OrderProduct> orderedProductsList = new ArrayList<OrderProduct>();
+	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 	
-	
-	public List<OrderProduct> getList(){
-		return orderedProductsList;
+	public List<OrderProduct> getOrderProductList(){
+		return orderProductList;
 	}
 	
-	public void setList(List<OrderProduct> orderedProductsList) {
-		this.orderedProductsList = orderedProductsList;
+	public void setOrderProductList(List<OrderProduct> orderProductList) {
+		this.orderProductList = orderProductList;
 	}
 }

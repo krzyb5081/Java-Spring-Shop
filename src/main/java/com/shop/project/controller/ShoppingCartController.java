@@ -1,48 +1,53 @@
 package com.shop.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.shop.project.service.OrderService;
+import com.shop.project.model.OrderProduct;
+//import com.shop.project.service.OrderService;
 import com.shop.project.service.ShoppingCartService;
-import com.shop.project.service.UserService;
+//import com.shop.project.service.UserService;
 
-@Controller
+@CrossOrigin
+@RestController
 public class ShoppingCartController {
 	
-	@Autowired
-	private OrderService orderService;
+	//@Autowired
+	//private OrderService orderService;
 	@Autowired
 	private ShoppingCartService shoppingCartService;
-	@Autowired
-	private UserService userService;
+	//@Autowired
+	//private UserService userService;
 
 	
 	
 	@PostMapping("/addProductToCart")
-	public String setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
+	public void setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
 		shoppingCartService.setOrderProductByProductId(productId, quantity);
-		return"redirect:/show";
+		
+		shoppingCartService.getOrderProductList().forEach(ord -> System.out.print(ord.getProduct().getName()) );
+		System.out.println("stfuuuuuuuuuuuuuuuu");
 	}
 	
 	@PostMapping("/removeProductFromCart")
-	public String removeProduct(@RequestParam("productId") long productId) {
+	public void removeProduct(@RequestParam("productId") long productId) {
 		shoppingCartService.removeOrderProductByProductId(productId);
-		return "redirect:/showShoppingCart";
 	}
 	
 	
 	@GetMapping("/showShoppingCart")
-	public String showShoppingCart(Model model) {
-		model.addAttribute("orderProductList", shoppingCartService.getOrderProductList());
-		model.addAttribute("productMap", shoppingCartService.getCurrentProductMap());
-		return "ShowCart";
+	public List<OrderProduct> showShoppingCart() {
+		
+		return shoppingCartService.getOrderProductList();
 	}
-	
+	/*
 	@GetMapping("/makeOrder")
 	public String confirmOrder(Model model) {
 		if(userService.getSessionUserName()==null) {
@@ -68,5 +73,5 @@ public class ShoppingCartController {
 	public String makeOrder() {
 		orderService.makeOrder();
 		return "redirect:/showOrders";
-	}
+	}*/
 }

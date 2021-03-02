@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shop.project.model.Product;
 import com.shop.project.service.ProductService;
 
+@CrossOrigin
 @RestController
 public class ShoppingController {
 	
 	@Autowired
 	ProductService productService;
 
-	@CrossOrigin
 	@GetMapping("/shopping")
 	public List<Product> showProducts(Model model) {
 		
@@ -29,7 +29,6 @@ public class ShoppingController {
 		return productList;
 	}
 	
-	@CrossOrigin
 	@PostMapping("/shopping")
 	public List<Product> searchProducts(@RequestParam(name="searchText") String searchText, Model model) {
 		List<Product> foundProductList = productService.searchProducts(searchText);

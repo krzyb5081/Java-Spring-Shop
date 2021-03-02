@@ -1,19 +1,13 @@
 package com.shop.project.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.model.Order;
 import com.shop.project.model.OrderProduct;
-import com.shop.project.model.Product;
 import com.shop.project.model.User;
-import com.shop.project.repository.OrderProductRepository;
 import com.shop.project.repository.OrderRepository;
 
 @Service
@@ -21,8 +15,6 @@ public class OrderService {
 	
 	@Autowired
 	private OrderRepository orderRepository;
-	@Autowired
-	private OrderProductRepository orderProductRepository;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -32,60 +24,42 @@ public class OrderService {
 	
 	public void makeOrder() {
 		
-		List<OrderProduct> orderProduct = shoppingCartService.getOrderProductList();
+		List<OrderProduct> orderProductList = shoppingCartService.getOrderProductList();
+		User user = userService.getUserBySession();
+		
+		orderProductList.forEach(orderProduct -> {
+			long productId = orderProduct.getProduct().getId();
+			productService.decreaseProductQuantity(productId, orderProduct.getQuantity());
+		});
 		
 		Order order = new Order();
-		order.setUserId(userService.getSessionUserId());
+		
+		order.setOrderProductList(orderProductList);
+		order.setUser(user);
 		order.setStatus("paid");
 		
-		double cost = getOrderCost();
-		userService.payForOrder(cost);
-		
-		Order savedOrder = orderRepository.save(order);
-		orderProduct.forEach(ordProduct -> ordProduct.setOrderId(savedOrder.getId()));
-		orderProduct.forEach(ordProduct -> {
-			long productId = ordProduct.getProductId();
-			productService.decreaseProductQuantity(productId, ordProduct.getQuantity());
-		});
-		orderProductRepository.saveAll(orderProduct);
-		
+		orderRepository.save(order);
 	}
 	
-	public Map<Order,List<OrderProduct>> getMyOrders() {
-		
-		Map<Order,List<OrderProduct>> orderMap = new HashMap<Order,List<OrderProduct>>();
-		
-		List<Order> orderList = orderRepository.findByUserId(userService.getSessionUserId());
-		orderList.forEach(order -> {
-			List<OrderProduct> orderProductList = orderProductRepository.findByOrderId(order.getId());
-			orderMap.put(order, orderProductList);
-		});
-		
-		return Collections.unmodifiableMap(orderMap);
+	public List<Order> getMyOrders() {
+		return userService.getUserBySession().getOrderList();
 	}
 	
-	public Map<Order,List<OrderProduct>> getAllOrders() {
-		
-		Map<Order,List<OrderProduct>> orderMap = new HashMap<Order,List<OrderProduct>>();
+	public List<Order> getAllOrders() {
 		
 		List<Order> orderList = new ArrayList<Order>();
 		orderRepository.findAll().forEach(order -> orderList.add(order));
 		
-		orderList.forEach(order -> {
-			List<OrderProduct> orderProductList = orderProductRepository.findByOrderId(order.getId());
-			orderMap.put(order, orderProductList);
-		});
-		
-		return Collections.unmodifiableMap(orderMap);
+		return orderList;
 	}
 	
 	public boolean checkout() {
-		List<OrderProduct> shoppingCartProducts = shoppingCartService.getOrderProductList();
+		List<OrderProduct> cartProductList = shoppingCartService.getOrderProductList();
 		
-		for(OrderProduct productsFromCart: shoppingCartProducts) {
+		for(OrderProduct cartProduct: cartProductList) {
 			
-			long productId = productsFromCart.getProductId();
-			int quantity = productsFromCart.getQuantity();
+			long productId = cartProduct.getProduct().getId();
+			int quantity = cartProduct.getQuantity();
 			
 			int quantityAvailable = productService.getProductById(productId).getQuantityAvailable();
 			
@@ -100,26 +74,16 @@ public class OrderService {
 	public double getOrderCost() {
 		double cost = 0;
 		
-		List<OrderProduct> shoppingCartProducts = shoppingCartService.getOrderProductList();
+		List<OrderProduct> cartOrderProductList = shoppingCartService.getOrderProductList();
 		
-		for(OrderProduct productsFromCart: shoppingCartProducts) {
-			double price = productService.getProductById(productsFromCart.getProductId()).getPrice();
-			int quantity = productsFromCart.getQuantity();
+		for(OrderProduct cartOrderProduct: cartOrderProductList) {
+			double price = cartOrderProduct.getProduct().getPrice();
+			int quantity = cartOrderProduct.getQuantity();
 			
 			cost += price*quantity;
 		}
 		return cost;
 		
-	}
-	
-	public Map<Long,Product> getProductMap() {
-		
-		return productService.getProductMap();
-	}
-	
-	public Map<Long,User> getUserMap() {
-		
-		return userService.getUserMap();
 	}
 	
 }

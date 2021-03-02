@@ -1,10 +1,15 @@
 package com.shop.project.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -17,6 +22,9 @@ public class User {
 	private String password;
 	private String type;//"admin", "seller", "user"
 	private double money;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Order> orderList;
 	
 	public User getObiect() {
 		return this;
@@ -60,6 +68,14 @@ public class User {
 	
 	public void setMoney(double money) {
 		this.money = money;
+	}
+	
+	public List<Order> getOrderList(){
+		return orderList;
+	}
+	
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 	
 }
