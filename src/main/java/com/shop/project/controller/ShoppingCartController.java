@@ -3,7 +3,6 @@ package com.shop.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,7 @@ import com.shop.project.model.OrderProduct;
 import com.shop.project.service.ShoppingCartService;
 //import com.shop.project.service.UserService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost", allowCredentials = "true")
 @RestController
 public class ShoppingCartController {
 	
@@ -31,20 +30,15 @@ public class ShoppingCartController {
 	@PostMapping("/addProductToCart")
 	public void setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
 		shoppingCartService.setOrderProductByProductId(productId, quantity);
-		
-		shoppingCartService.getOrderProductList().forEach(ord -> System.out.print(ord.getProduct().getName()) );
-		System.out.println("stfuuuuuuuuuuuuuuuu");
 	}
-	
+
 	@PostMapping("/removeProductFromCart")
 	public void removeProduct(@RequestParam("productId") long productId) {
 		shoppingCartService.removeOrderProductByProductId(productId);
 	}
-	
-	
+
 	@GetMapping("/showShoppingCart")
 	public List<OrderProduct> showShoppingCart() {
-		
 		return shoppingCartService.getOrderProductList();
 	}
 	/*

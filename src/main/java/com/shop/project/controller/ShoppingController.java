@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shop.project.model.Product;
 import com.shop.project.service.ProductService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost", allowCredentials = "true")
 @RestController
 public class ShoppingController {
 	
@@ -28,7 +28,7 @@ public class ShoppingController {
 		model.addAttribute("productList", productList);
 		return productList;
 	}
-	
+
 	@PostMapping("/shopping")
 	public List<Product> searchProducts(@RequestParam(name="searchText") String searchText, Model model) {
 		List<Product> foundProductList = productService.searchProducts(searchText);
