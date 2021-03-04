@@ -27,6 +27,14 @@ public class ProductService {
 		productRepository.save(product);
 	}
 	
+	public void addProduct(Product product) {
+		productRepository.save(product);
+	}
+	
+	public void changeProductProperties(Product changedProduct) {
+		productRepository.save(changedProduct);
+	}
+	
 	public Map<Long,Product> getProductMap(){
 		Map<Long,Product> productMap = new HashMap<Long,Product>();
 		
