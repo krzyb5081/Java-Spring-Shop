@@ -25,14 +25,18 @@ public class OrderService {
 	public void makeOrder() {
 		
 		List<OrderProduct> orderProductList = shoppingCartService.getOrderProductList();
-		User user = userService.getUserBySession();
+		if(orderProductList.isEmpty()) {
+			return;
+		}
+		User user = userService.getUserBySessionNoPassword();
+		Order order = new Order();
 		
 		orderProductList.forEach(orderProduct -> {
+			orderProduct.setOrder(order);
+			
 			long productId = orderProduct.getProduct().getId();
 			productService.decreaseProductQuantity(productId, orderProduct.getQuantity());
 		});
-		
-		Order order = new Order();
 		
 		order.setOrderProductList(orderProductList);
 		order.setUser(user);
@@ -42,7 +46,7 @@ public class OrderService {
 	}
 	
 	public List<Order> getMyOrders() {
-		return userService.getUserBySession().getOrderList();
+		return userService.getUserBySessionNoPassword().getOrderList();
 	}
 	
 	public List<Order> getAllOrders() {

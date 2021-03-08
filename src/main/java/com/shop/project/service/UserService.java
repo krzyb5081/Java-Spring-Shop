@@ -44,23 +44,25 @@ public class UserService {
 	
 	public boolean registerUser(User user) {
 		User resultUser = getByUserName(user.getUserName());
+
 		if(resultUser == null) {
+			
+			user.setMoney(50);
+			user.setType("user");
 			userRepository.save(user);
 			return true;
 		}
 		return false;
 	}
 	
-	public String getSessionUserName() {
-		return userSession.getUserName();
-	}
-	
-	public long getSessionUserId() {
-		return userSession.getUserId();
-	}
-	
-	public User getUserBySession() {
-		return userRepository.findById(userSession.getUserId()).get();
+	public User getUserBySessionNoPassword() {
+		if(userSession.getUserName()==null) {
+			return null;
+		}
+		
+		User user = userRepository.findById(userSession.getUserId()).get();
+		user.setPassword("");
+		return user;
 	}
 	
 	public void payForOrder(double cost) {

@@ -3,8 +3,6 @@ package com.shop.project.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,50 +17,36 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	
-	@GetMapping("/login")
-	public String loginForm(User user, Model model) {
-		model.addAttribute("user", user);
-		return "LoginForm";
-	}
-	
+
 	@PostMapping("/login")
-	public String performLogin(@Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			return "LoginForm";
-		}
+	public String performLogin(@Valid User user) {
 		
 		if(userService.loginUser(user)) {
-			return "LoginSuccess";
+			return "loginsuccess";
 		} else {
-			return "LoginFail";
+			return "loginfail";
 		}
 		
 	}
 	
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public String logoutUser() {
 		userService.logoutUser();
-		return "index";
-	}
-	
-	@GetMapping("/register")
-	public String registerForm(User user, Model model) {
-		model.addAttribute("user", user);
-		return "RegisterForm";
+		return "logout";
 	}
 	
 	@PostMapping("/register")
-	public String performRegister(@Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			return "RegisterForm";
-		}
-		
+	public String performRegister(@Valid User user) {
 		if(userService.registerUser(user)) {
-			return "RegisterSuccess";
+			return "registersuccess";
 		} else {
-			return "RegisterFail";
+			return "registerfail";
 		}
 		
+	}
+	
+	@GetMapping("/getSessionUser")
+	public User getSessionUser() {
+		return userService.getUserBySessionNoPassword();
 	}
 }
