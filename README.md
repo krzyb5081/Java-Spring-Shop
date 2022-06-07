@@ -1,2 +1,2 @@
 # shop
-online shop java project using spring boot and hibernate
+Online Shop java project using spring boot and hibernate.
