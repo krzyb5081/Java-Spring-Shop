@@ -22,16 +22,6 @@ public class OrderController {
 	
 	@GetMapping("/showOrders")
 	public List<Order> showOrders() {
-		
-		if(userService.getUserBySessionNoPassword().getUserName()==null) {
-			return null;
-		}
-		
-		if(userService.getUserBySessionNoPassword().getType().equals("seller")) {
 			return orderService.getAllOrders();
-		}
-		else {
-			return orderService.getMyOrders();
-		}
 	}
 }

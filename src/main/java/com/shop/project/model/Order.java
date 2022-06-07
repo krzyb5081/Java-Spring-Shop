@@ -2,18 +2,13 @@ package com.shop.project.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "order_table")
@@ -24,13 +19,10 @@ public class Order {
 	private long id;
 	private String status;
 	
-	@JsonManagedReference(value = "orderProduct-order")
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany
 	private List<OrderProduct> orderProductList;
 	
-	@JsonManagedReference(value = "user-order")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="user_id")
+	@ManyToOne
 	private User user;
 	
 	

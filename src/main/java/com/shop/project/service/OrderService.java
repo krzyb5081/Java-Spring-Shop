@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.shop.project.model.Order;
 import com.shop.project.model.OrderProduct;
 import com.shop.project.model.User;
+import com.shop.project.repository.OrderProductRepository;
 import com.shop.project.repository.OrderRepository;
 
 @Service
@@ -15,6 +16,8 @@ public class OrderService {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
+	private OrderProductRepository orderProductRepository;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -42,6 +45,7 @@ public class OrderService {
 		order.setUser(user);
 		order.setStatus("paid");
 		
+		orderProductRepository.saveAll(orderProductList);
 		orderRepository.save(order);
 	}
 	
