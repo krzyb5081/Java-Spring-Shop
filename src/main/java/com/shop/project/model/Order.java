@@ -2,6 +2,7 @@ package com.shop.project.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class Order {
 	private long id;
 	private String status;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderProduct> orderProductList;
 	
 	@ManyToOne

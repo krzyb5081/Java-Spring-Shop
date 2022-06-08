@@ -55,14 +55,12 @@ public class UserService {
 		return false;
 	}
 	
-	public User getUserBySessionNoPassword() {
+	public User getUserBySession() {
 		if(userSession.getUserName()==null) {
 			return null;
 		}
 		
-		User user = userRepository.findById(userSession.getUserId()).get();
-		user.setPassword("");
-		return user;
+		return userRepository.findById(userSession.getUserId()).get();
 	}
 	
 	public void payForOrder(double cost) {

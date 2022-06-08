@@ -37,6 +37,7 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String performRegister(@Valid User user) {
+		System.out.print(user.getPassword()+user.getUserName());
 		if(userService.registerUser(user)) {
 			return "registersuccess";
 		} else {
@@ -47,6 +48,6 @@ public class UserController {
 	
 	@GetMapping("/getSessionUser")
 	public User getSessionUser() {
-		return userService.getUserBySessionNoPassword();
+		return userService.getUserBySession();
 	}
 }

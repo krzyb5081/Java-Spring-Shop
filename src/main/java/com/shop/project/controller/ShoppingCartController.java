@@ -47,7 +47,7 @@ public class ShoppingCartController {
 	
 	@GetMapping("/makeOrder")///////////////////////
 	public String makeOrder() {
-		if(userService.getUserBySessionNoPassword() == null) {
+		if(userService.getUserBySession() == null) {
 			System.out.println("You have to login first");
 			return "You have to login first";
 		}

@@ -15,7 +15,6 @@ public class OrderProduct {
 	private long id;
 	private int quantity;
 	
-	@ManyToOne
 	private Order order;
 	
 	@OneToOne

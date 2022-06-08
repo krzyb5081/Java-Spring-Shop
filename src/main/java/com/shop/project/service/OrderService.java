@@ -31,7 +31,7 @@ public class OrderService {
 		if(orderProductList.isEmpty()) {
 			return;
 		}
-		User user = userService.getUserBySessionNoPassword();
+		User user = userService.getUserBySession();
 		Order order = new Order();
 		
 		orderProductList.forEach(orderProduct -> {
@@ -45,12 +45,12 @@ public class OrderService {
 		order.setUser(user);
 		order.setStatus("paid");
 		
-		orderProductRepository.saveAll(orderProductList);
+		//orderProductRepository.saveAll(orderProductList);
 		orderRepository.save(order);
 	}
 	
 	public List<Order> getMyOrders() {
-		return userService.getUserBySessionNoPassword().getOrderList();
+		return userService.getUserBySession().getOrderList();
 	}
 	
 	public List<Order> getAllOrders() {
