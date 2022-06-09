@@ -2,12 +2,15 @@ package com.shop.project.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User {
@@ -21,7 +24,8 @@ public class User {
 	private String type;//"admin", "seller", "user"
 	private double money;
 	
-	@OneToMany
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Order> orderList;
 	
 	public long getId() {

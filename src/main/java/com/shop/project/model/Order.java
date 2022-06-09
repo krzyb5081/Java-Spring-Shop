@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "order_table")
 public class Order {
@@ -20,9 +23,11 @@ public class Order {
 	private long id;
 	private String status;
 	
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderProduct> orderProductList;
 	
+	@JsonBackReference
 	@ManyToOne
 	private User user;
 	

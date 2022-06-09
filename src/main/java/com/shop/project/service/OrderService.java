@@ -45,6 +45,10 @@ public class OrderService {
 		order.setUser(user);
 		order.setStatus("paid");
 		
+		List<Order> orderList = user.getOrderList();
+		orderList.add(order);
+		user.setOrderList(orderList);
+		
 		//orderProductRepository.saveAll(orderProductList);
 		orderRepository.save(order);
 	}

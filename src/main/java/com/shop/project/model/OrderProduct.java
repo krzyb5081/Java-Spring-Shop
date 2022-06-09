@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class OrderProduct {
 	
@@ -15,6 +17,8 @@ public class OrderProduct {
 	private long id;
 	private int quantity;
 	
+	@JsonBackReference
+	@ManyToOne
 	private Order order;
 	
 	@OneToOne
