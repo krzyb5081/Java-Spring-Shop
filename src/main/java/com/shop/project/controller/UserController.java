@@ -37,10 +37,13 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String performRegister(@Valid User user) {
-		System.out.print(user.getPassword()+user.getUserName());
+		System.out.println("\nUserControl.java:");
+		System.out.println(user.getUserName()+"\n"+user.getPassword());
 		if(userService.registerUser(user)) {
+			System.out.println("register sukces");
 			return "registersuccess";
 		} else {
+			System.out.println("register fail");
 			return "registerfail";
 		}
 		
