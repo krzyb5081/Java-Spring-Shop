@@ -1,9 +1,7 @@
 package com.shop.project.service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,28 +19,17 @@ public class ShoppingCartService {
 	
 	public void setOrderProductByProductId(long productId, int quantity) {
 		
-		if(quantity<1) {
-			removeOrderProductByProductId(productId);
-			return;
-		}
-		
-		List<OrderProduct> orderProductList = shoppingCart.getOrderProductList();
-		
-		for(OrderProduct orderProduct : orderProductList) {
-			if(orderProduct.getProduct().getId()==productId) {
-				orderProductList.remove(orderProduct);
-				break;
-			}
-		}
-		
-		OrderProduct orderProduct = new OrderProduct();
+		removeOrderProductByProductId(productId);
+		if(quantity < 1) return;
 		
 		Product product = productService.getProductById(productId);
+		
+		OrderProduct orderProduct = new OrderProduct();
 		orderProduct.setProduct(product);
 		orderProduct.setQuantity(quantity);
 		
+		List<OrderProduct> orderProductList = shoppingCart.getOrderProductList();
 		orderProductList.add(orderProduct);
-		
 		shoppingCart.setOrderProductList(orderProductList);
 		
 	}
@@ -62,23 +49,13 @@ public class ShoppingCartService {
 	}
 	
 	public List<OrderProduct> getOrderProductList() {
+		System.out.println("ShoppingCartService >> getOrderProductList() >> isEmpty(): "+shoppingCart.getOrderProductList().isEmpty());
 		return shoppingCart.getOrderProductList();
 	}
 	
-	public Map<Long,Product> getProductMapForOrderProductList() {
-		
-		List<OrderProduct> cartOrderProductList = shoppingCart.getOrderProductList();
-		Map<Long,Product> productMap = new HashMap<Long,Product>();
-		
-		for(OrderProduct cartOrderProduct: cartOrderProductList) {
-			
-			long productId = cartOrderProduct.getProduct().getId();
-			Product product = productService.getProductById(productId);
-			
-			productMap.put(productId, product);
-		}
-		return productMap;
-		
+	public void clearShoppingCart() {
+		shoppingCart.setOrderProductList(new ArrayList<OrderProduct>());
+		return;
 	}
 	
 }

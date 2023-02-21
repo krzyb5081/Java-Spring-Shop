@@ -59,6 +59,7 @@ public class UserService {
 		if(userSession.getUserName()==null) {
 			return null;
 		}
+		System.out.println("UserService >> User: "+userSession.getUserName());
 		
 		return userRepository.findById(userSession.getUserId()).get();
 	}
