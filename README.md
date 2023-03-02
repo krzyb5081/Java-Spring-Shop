@@ -11,7 +11,7 @@ Project is still in progress and I am still learning new technologies.
 - JPA
 - Spring
   - Spring Data
-  - Spring Boot 
+  - Spring Boot (v2.4.2)
   - Spring Security
   - Spring Session
 - Jackson
@@ -25,3 +25,13 @@ Project is still in progress and I am still learning new technologies.
 - Customers have money ballance and be able to see their orders details (in progress)
 - Customers are able to chat with merchants (in progress)
 - Unit tests (in progress)
+
+## Launch
+1. Clone repository https://github.com/krzyb5081/Java-Spring-Shop.git
+2. Setup MySQL server and create database
+3. Change database connection settings in Java-Spring-Shop/src/main/resources/[application.properties](src/main/resources/application.properties)
+4. Edit spring.datasource.url=jdbc:mysql://[host]:[port]/[database name] - for example jdbc:mysql://localhost:3306/shop_db
+5. Edit spring.datasource.username=[database username]
+6. Edit spring.datasource.password=[database password]
+7. Save changes
+8. Select Java-Spring-Shop/src/main/java/com/shop/project/[ShopApplication.java](src/main/java/com/shop/project/ShopApplication.java) and run as Java Application
