@@ -25,6 +25,11 @@ public class OrderController {
 		return orderService.getAllOrders();
 	}
 	
+	@GetMapping("/showMyOrders")
+	public List<Order> showMyOrders() {
+		return orderService.getMyOrders();
+	}
+	
 	@GetMapping("/getOrderCost")
 	public Double getOrderCost() {
 		return orderService.getOrderCost();

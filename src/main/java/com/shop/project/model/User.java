@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -18,15 +19,20 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	
 	@Column(unique=true)
 	private String userName;
+	
 	private String password;
-	private String type;//"admin", "seller", "user"
+	
+	private String type;//"admin", "merchant", "user"
+	
 	private double money;
 	
-	@JsonManagedReference
+	@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Order> orderList;
+	
 	
 	public long getId() {
 		return id;

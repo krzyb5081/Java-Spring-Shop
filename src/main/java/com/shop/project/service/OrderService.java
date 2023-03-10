@@ -71,6 +71,9 @@ public class OrderService {
 	}
 	
 	public List<Order> getMyOrders() {
+		if(userService.getUserBySession() == null) {
+			return new ArrayList<Order>();
+		}
 		return userService.getUserBySession().getOrderList();
 	}
 	

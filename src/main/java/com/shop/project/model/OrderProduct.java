@@ -15,6 +15,7 @@ public class OrderProduct {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	
 	private int quantity;
 	
 	@JsonBackReference
@@ -23,6 +24,7 @@ public class OrderProduct {
 	
 	@OneToOne
 	private Product product;
+	
 	
 	public long getId() {
 		return id;
