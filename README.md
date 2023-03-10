@@ -1,6 +1,6 @@
 # Online Shop
 ## About
-This is Java Spring Boot REST API project using MySQL database, working with client-side [website](https://github.com/krzyb5081/vue-shop-client).
+This is Java Spring Boot REST API project using MySQL database, working with client-side [website](https://github.com/krzyb5081/Vue-Shop-Client).
 I created this project to learn how to use Spring and Hibernate. I also wanted to learn about REST API and Test Driven Development.
 Project is still in progress and I am learning new technologies.
 
@@ -9,10 +9,10 @@ Project is still in progress and I am learning new technologies.
 - Hibernate
 - JPA
 - Spring
-  - Spring Data
-  - Spring Boot (v2.4.2)
-  - Spring Security
-  - Spring Session
+- Spring Data
+- Spring Boot (v2.4.2)
+- Spring Security
+- Spring Session
 - Jackson
 - MySQL
 - JUnit - in future
