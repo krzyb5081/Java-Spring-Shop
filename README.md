@@ -1,9 +1,8 @@
 # Online Shop
 ## About
-I created this project to learn how to use Spring and Hibernate. 
-In my other repository i have [client-side website](https://github.com/krzyb5081/vue-shop-client) working with this project.
-I also wanted to learn about REST API and Test Driven Development.
-Project is still in progress and I am still learning new technologies.
+This is Java Spring Boot REST API project using MySQL database, working with client-side [website](https://github.com/krzyb5081/vue-shop-client).
+I created this project to learn how to use Spring and Hibernate. I also wanted to learn about REST API and Test Driven Development.
+Project is still in progress and I am learning new technologies.
 
 ## Technologies
 
