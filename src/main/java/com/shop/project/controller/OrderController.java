@@ -11,7 +11,7 @@ import com.shop.project.model.Order;
 import com.shop.project.service.OrderService;
 import com.shop.project.service.UserService;
 
-@CrossOrigin(origins = "http://localhost", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 public class OrderController {
 
