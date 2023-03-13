@@ -11,9 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class User {
 	
 	@Id
@@ -25,61 +30,11 @@ public class User {
 	
 	private String password;
 	
-	private String type;//"admin", "merchant", "user"
+	private String type;//"merchant", "user"
 	
 	private double money;
 	
 	@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Order> orderList;
-	
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public String getUserName() {
-		return userName;
-	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public double getMoney() {
-		return money;
-	}
-	
-	public void setMoney(double money) {
-		this.money = money;
-	}
-	
-	public List<Order> getOrderList(){
-		return orderList;
-	}
-	
-	public void setOrderList(List<Order> orderList) {
-		this.orderList = orderList;
-	}
-	
 }
