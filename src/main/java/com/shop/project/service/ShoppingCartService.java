@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shop.project.dto.ShoppingCart;
 import com.shop.project.model.OrderProduct;
 import com.shop.project.model.Product;
-import com.shop.project.model.ShoppingCart;
 
 @Service
 public class ShoppingCartService {

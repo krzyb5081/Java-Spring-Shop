@@ -3,7 +3,6 @@ package com.shop.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +10,6 @@ import com.shop.project.model.Order;
 import com.shop.project.service.OrderService;
 import com.shop.project.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 public class OrderController {
 

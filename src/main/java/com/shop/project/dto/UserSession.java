@@ -1,7 +1,4 @@
-package com.shop.project.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.shop.project.dto;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -13,12 +10,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart {
-	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+public class UserSession {
+	private long userId;
+	private String userName;
 }
