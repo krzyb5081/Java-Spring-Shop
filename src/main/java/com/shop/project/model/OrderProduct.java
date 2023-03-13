@@ -9,7 +9,16 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderProduct {
 	
 	@Id
@@ -24,38 +33,4 @@ public class OrderProduct {
 	
 	@OneToOne
 	private Product product;
-	
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public int getQuantity() {
-		return quantity;
-	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	public Order getOrder() {
-		return order;
-	}
-	
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-	
-	public Product getProduct() {
-		return product;
-	}
-	
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
 }

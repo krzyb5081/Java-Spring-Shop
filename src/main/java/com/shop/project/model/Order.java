@@ -13,8 +13,17 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "order_table")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 	
 	@Id
@@ -30,38 +39,4 @@ public class Order {
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderProduct> orderProductList;
-	
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public List<OrderProduct> getOrderProductList(){
-		return orderProductList;
-	}
-	
-	public void setOrderProductList(List<OrderProduct> orderProductList) {
-		this.orderProductList = orderProductList;
-	}
-	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 }
