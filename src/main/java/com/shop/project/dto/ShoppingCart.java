@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.shop.project.model.OrderProduct;
+import com.shop.project.model.OrderPart;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,5 +22,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShoppingCart {
-	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+	private List<OrderPart> orderProductList = new ArrayList<OrderPart>();
 }

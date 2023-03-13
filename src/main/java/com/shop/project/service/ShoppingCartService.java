@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.dto.ShoppingCart;
-import com.shop.project.model.OrderProduct;
+import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
 
 @Service
@@ -24,11 +24,11 @@ public class ShoppingCartService {
 		
 		Product product = productService.getProductById(productId);
 		
-		OrderProduct orderProduct = new OrderProduct();
+		OrderPart orderProduct = new OrderPart();
 		orderProduct.setProduct(product);
 		orderProduct.setQuantity(quantity);
 		
-		List<OrderProduct> orderProductList = shoppingCart.getOrderProductList();
+		List<OrderPart> orderProductList = shoppingCart.getOrderProductList();
 		orderProductList.add(orderProduct);
 		shoppingCart.setOrderProductList(orderProductList);
 		
@@ -36,9 +36,9 @@ public class ShoppingCartService {
 	
 	public void removeOrderProductByProductId(long productId) {
 		
-		List<OrderProduct> orderProductList = shoppingCart.getOrderProductList();
+		List<OrderPart> orderProductList = shoppingCart.getOrderProductList();
 		
-		for(OrderProduct orderProduct: orderProductList) {
+		for(OrderPart orderProduct: orderProductList) {
 			if(orderProduct.getProduct().getId()==productId) {
 				orderProductList.remove(orderProduct);
 				break;
@@ -48,13 +48,13 @@ public class ShoppingCartService {
 		
 	}
 	
-	public List<OrderProduct> getOrderProductList() {
+	public List<OrderPart> getOrderProductList() {
 		System.out.println("ShoppingCartService >> getOrderProductList() >> isEmpty(): "+shoppingCart.getOrderProductList().isEmpty());
 		return shoppingCart.getOrderProductList();
 	}
 	
 	public void clearShoppingCart() {
-		shoppingCart.setOrderProductList(new ArrayList<OrderProduct>());
+		shoppingCart.setOrderProductList(new ArrayList<OrderPart>());
 		return;
 	}
 	

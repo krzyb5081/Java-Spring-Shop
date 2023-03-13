@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.model.Order;
-import com.shop.project.model.OrderProduct;
+import com.shop.project.model.OrderPart;
 import com.shop.project.model.User;
 import com.shop.project.repository.OrderProductRepository;
 import com.shop.project.repository.OrderRepository;
@@ -38,7 +38,7 @@ public class OrderService {
 			return "No product available";
 		}
 		
-		List<OrderProduct> orderProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> orderProductList = shoppingCartService.getOrderProductList();
 		if(orderProductList.isEmpty()) {
 			System.out.println("Cannot make order with empty cart");
 			return "Cannot make order with empty cart";
@@ -86,9 +86,9 @@ public class OrderService {
 	}
 	
 	public boolean checkAvailability() {
-		List<OrderProduct> cartProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> cartProductList = shoppingCartService.getOrderProductList();
 		
-		for(OrderProduct cartProduct: cartProductList) {
+		for(OrderPart cartProduct: cartProductList) {
 			
 			long productId = cartProduct.getProduct().getId();
 			int quantity = cartProduct.getQuantity();
@@ -106,9 +106,9 @@ public class OrderService {
 	public double getOrderCost() {
 		double cost = 0;
 		
-		List<OrderProduct> cartOrderProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> cartOrderProductList = shoppingCartService.getOrderProductList();
 		
-		for(OrderProduct cartOrderProduct: cartOrderProductList) {
+		for(OrderPart cartOrderProduct: cartOrderProductList) {
 			double price = cartOrderProduct.getProduct().getPrice();
 			int quantity = cartOrderProduct.getQuantity();
 			

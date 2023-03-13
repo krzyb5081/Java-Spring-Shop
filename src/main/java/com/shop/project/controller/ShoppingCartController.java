@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shop.project.model.OrderProduct;
+import com.shop.project.model.OrderPart;
 import com.shop.project.service.ShoppingCartService;
 
 @RestController
@@ -28,7 +28,7 @@ public class ShoppingCartController {
 	}
 
 	@GetMapping("/showShoppingCart")
-	public List<OrderProduct> showShoppingCart() {
+	public List<OrderPart> showShoppingCart() {
 		return shoppingCartService.getOrderProductList();
 	}
 	

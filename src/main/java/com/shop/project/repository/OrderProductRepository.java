@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.shop.project.model.OrderProduct;
+import com.shop.project.model.OrderPart;
 
 @Repository
-public interface OrderProductRepository extends CrudRepository<OrderProduct, Long> {
+public interface OrderProductRepository extends CrudRepository<OrderPart, Long> {
 
-	public List<OrderProduct> findByOrderId(long orderId);
+	public List<OrderPart> findByOrderId(long orderId);
 }
