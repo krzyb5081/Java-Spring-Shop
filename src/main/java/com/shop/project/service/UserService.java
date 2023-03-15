@@ -3,20 +3,23 @@ package com.shop.project.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.dto.UserSession;
 import com.shop.project.model.User;
 import com.shop.project.repository.UserRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private UserSession userSession;
+	
+	private final UserRepository userRepository;
+	private final UserSession userSession;
+	
+	
 	
 	public User getByUserName(String userName) {
 		for(User user: userRepository.findAll()) {
