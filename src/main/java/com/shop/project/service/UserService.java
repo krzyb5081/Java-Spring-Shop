@@ -2,7 +2,7 @@ package com.shop.project.service;
 
 import org.springframework.stereotype.Service;
 
-import com.shop.project.dto.UserSession;
+import com.shop.project.dto.UserDto;
 import com.shop.project.model.User;
 import com.shop.project.repository.UserRepository;
 
@@ -14,9 +14,6 @@ public class UserService {
 
 	
 	private final UserRepository userRepository;
-	private final UserSession userSession;
-	
-	
 	
 	public User getByUserName(String userName) {
 		for(User user: userRepository.findAll()) {
@@ -25,21 +22,6 @@ public class UserService {
 			}
 		}
 		return null;
-	}
-	
-	public boolean loginUser(User user) {
-		User resultUser = getByUserName(user.getUserName());
-		if( (resultUser != null) && (resultUser.getPassword().equals(user.getPassword())==true) ) {
-			userSession.setUserId(resultUser.getId());
-			userSession.setUserName(resultUser.getUserName());
-			return true;
-		}
-		return false;
-	}
-	
-	public void logoutUser() {
-		userSession.setUserId(0);
-		userSession.setUserName(null);
 	}
 	
 	public boolean registerUser(User user) {
@@ -55,12 +37,11 @@ public class UserService {
 		return false;
 	}
 	
-	public User getUserBySession() {
-		if(userSession.getUserName()==null) {
-			return null;
-		}
-		System.out.println("UserService >> User: "+userSession.getUserName());
-		
-		return userRepository.findById(userSession.getUserId()).get();
+	public User dtoToEntity(UserDto userDto) {
+		return new User();
+	}
+	
+	public UserDto entityToDto(User user) {
+		return new UserDto();
 	}
 }

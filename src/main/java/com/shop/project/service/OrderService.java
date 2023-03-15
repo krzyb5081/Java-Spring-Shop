@@ -2,7 +2,6 @@ package com.shop.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.model.Order;
@@ -11,29 +10,25 @@ import com.shop.project.model.User;
 import com.shop.project.repository.OrderProductRepository;
 import com.shop.project.repository.OrderRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 	
-	@Autowired
-	private OrderRepository orderRepository;
-	@Autowired
-	private OrderProductRepository orderProductRepository;
-	@Autowired
-	private ProductService productService;
-	@Autowired
-	private ShoppingCartService shoppingCartService;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private OrderService orderService;
+	private final OrderRepository orderRepository;
+	private final OrderProductRepository orderProductRepository;
+	private final ProductService productService;
+	private final ShoppingCartService shoppingCartService;
+	private final SessionService sessionService;
 	
 	public String makeOrder() {
 		System.out.println("OrderService>>makeOrder()>>");
-		if(userService.getUserBySession() == null) {
+		if(sessionService.getUserFromSession() == null) {
 			System.out.println("You have to login first");
 			return "You have to login first";
 		}
-		if(orderService.checkAvailability()==false) {
+		if(this.checkAvailability()==false) {
 			System.out.println("No product available");
 			return "No product available";
 		}
@@ -43,7 +38,7 @@ public class OrderService {
 			System.out.println("Cannot make order with empty cart");
 			return "Cannot make order with empty cart";
 		}
-		User user = userService.getUserBySession();
+		User user = sessionService.getUserFromSession();
 		Order order = new Order();
 		
 		orderProductList.forEach(orderProduct -> {
@@ -71,10 +66,10 @@ public class OrderService {
 	}
 	
 	public List<Order> getMyOrders() {
-		if(userService.getUserBySession() == null) {
+		if(sessionService.getUserFromSession() == null) {
 			return new ArrayList<Order>();
 		}
-		return userService.getUserBySession().getOrderList();
+		return sessionService.getUserFromSession().getOrderList();
 	}
 	
 	public List<Order> getAllOrders() {
