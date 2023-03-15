@@ -1,18 +1,15 @@
 package com.shop.project.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.shop.project.dto.UserSession;
 import com.shop.project.model.User;
 import com.shop.project.repository.UserRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
 	
@@ -65,20 +62,5 @@ public class UserService {
 		System.out.println("UserService >> User: "+userSession.getUserName());
 		
 		return userRepository.findById(userSession.getUserId()).get();
-	}
-	
-	public void payForOrder(double cost) {
-		User user = userRepository.findById(userSession.getUserId()).get();
-		user.setMoney(user.getMoney()-cost);
-		userRepository.save(user);
-	}
-	
-	public Map<Long,User> getUserMap(){
-		Map<Long,User> userMap = new HashMap<Long,User>();
-		
-		userRepository.findAll().forEach(user->{
-			userMap.put(user.getId(), user);
-		});
-		return userMap;
 	}
 }
