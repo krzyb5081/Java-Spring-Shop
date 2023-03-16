@@ -38,10 +38,10 @@ public class UserService {
 	}
 	
 	public User dtoToEntity(UserDto userDto) {
-		return new User();
+		return new User(0, userDto.getUserName(), userDto.getPassword(), "", 0, null);
 	}
 	
 	public UserDto entityToDto(User user) {
-		return new UserDto();
+		return new UserDto(user.getUserName(), user.getPassword());
 	}
 }

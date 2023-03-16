@@ -2,60 +2,66 @@ package com.shop.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.dto.ShoppingCart;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ShoppingCartService {
 	
-	@Autowired
-	private ShoppingCart shoppingCart;
-	@Autowired
-	private ProductService productService;
+	private final ShoppingCart shoppingCart;
+	private final ProductService productService;
 	
-	public void setOrderProductByProductId(long productId, int quantity) {
-		
-		removeOrderProductByProductId(productId);
-		if(quantity < 1) return;
-		
-		Product product = productService.getProductById(productId);
-		
-		OrderPart orderProduct = new OrderPart();
-		orderProduct.setProduct(product);
-		orderProduct.setQuantity(quantity);
-		
-		List<OrderPart> orderProductList = shoppingCart.getOrderProductList();
-		orderProductList.add(orderProduct);
-		shoppingCart.setOrderProductList(orderProductList);
-		
-	}
 	
-	public void removeOrderProductByProductId(long productId) {
+	public List<OrderPart> removeOrderPartByProductId(long productId) {
 		
-		List<OrderPart> orderProductList = shoppingCart.getOrderProductList();
+		List<OrderPart> orderPartList = shoppingCart.getOrderProductList();
 		
-		for(OrderPart orderProduct: orderProductList) {
-			if(orderProduct.getProduct().getId()==productId) {
-				orderProductList.remove(orderProduct);
+		for(OrderPart orderPart: orderPartList) {
+			if(orderPart.getProduct().getId()==productId) {
+				orderPartList.remove(orderPart);
 				break;
 			}
 		}
-		shoppingCart.setOrderProductList(orderProductList);
+		shoppingCart.setOrderProductList(orderPartList);
+		
+		return orderPartList;
 		
 	}
 	
-	public List<OrderPart> getOrderProductList() {
-		System.out.println("ShoppingCartService >> getOrderProductList() >> isEmpty(): "+shoppingCart.getOrderProductList().isEmpty());
+	public List<OrderPart> setOrderPartByProductId(long productId, int quantity) {
+		
+		removeOrderPartByProductId(productId);
+		if(quantity < 1) return new ArrayList<OrderPart>();
+		
+		Product product = productService.getProductById(productId);
+		
+		OrderPart orderPart = new OrderPart();
+		orderPart.setProduct(product);
+		orderPart.setQuantity(quantity);
+		
+		List<OrderPart> orderPartList = shoppingCart.getOrderProductList();
+		orderPartList.add(orderPart);
+		shoppingCart.setOrderProductList(orderPartList);
+		
+		return orderPartList;
+		
+	}
+	
+	public List<OrderPart> getOrderPartList() {
+		System.out.println("ShoppingCartService >> getOrderPartList() >> isEmpty(): "+shoppingCart.getOrderProductList().isEmpty());
 		return shoppingCart.getOrderProductList();
 	}
 	
-	public void clearShoppingCart() {
-		shoppingCart.setOrderProductList(new ArrayList<OrderPart>());
-		return;
+	public List<OrderPart> clearShoppingCart() {
+		List<OrderPart> orderPartList = new ArrayList<OrderPart>();
+		shoppingCart.setOrderProductList(orderPartList);
+		return orderPartList;
 	}
 	
 }

@@ -33,7 +33,7 @@ public class OrderService {
 			return "No product available";
 		}
 		
-		List<OrderPart> orderProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> orderProductList = shoppingCartService.getOrderPartList();
 		if(orderProductList.isEmpty()) {
 			System.out.println("Cannot make order with empty cart");
 			return "Cannot make order with empty cart";
@@ -81,7 +81,7 @@ public class OrderService {
 	}
 	
 	public boolean checkAvailability() {
-		List<OrderPart> cartProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> cartProductList = shoppingCartService.getOrderPartList();
 		
 		for(OrderPart cartProduct: cartProductList) {
 			
@@ -101,7 +101,7 @@ public class OrderService {
 	public double getOrderCost() {
 		double cost = 0;
 		
-		List<OrderPart> cartOrderProductList = shoppingCartService.getOrderProductList();
+		List<OrderPart> cartOrderProductList = shoppingCartService.getOrderPartList();
 		
 		for(OrderPart cartOrderProduct: cartOrderProductList) {
 			double price = cartOrderProduct.getProduct().getPrice();

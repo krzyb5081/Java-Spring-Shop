@@ -19,17 +19,17 @@ public class ShoppingCartController {
 
 	@PostMapping("/addProductToCart")
 	public void setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
-		shoppingCartService.setOrderProductByProductId(productId, quantity);
+		shoppingCartService.setOrderPartByProductId(productId, quantity);
 	}
 
 	@PostMapping("/removeProductFromCart")
 	public void removeProduct(@RequestParam("productId") long productId) {
-		shoppingCartService.removeOrderProductByProductId(productId);
+		shoppingCartService.removeOrderPartByProductId(productId);
 	}
 
 	@GetMapping("/showShoppingCart")
 	public List<OrderPart> showShoppingCart() {
-		return shoppingCartService.getOrderProductList();
+		return shoppingCartService.getOrderPartList();
 	}
 	
 }
