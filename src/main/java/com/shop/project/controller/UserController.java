@@ -17,11 +17,11 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/register")
-	public String performRegister(@Valid User user) {
+	public String registerUser(@Valid User user) {
 		System.out.println("\nUserControl.java:");
 		System.out.println(user.getUserName()+"\n"+user.getPassword());
 		if(userService.registerUser(user)) {
-			System.out.println("register sukces");
+			System.out.println("register succes");
 			return "registersuccess";
 		} else {
 			System.out.println("register fail");
