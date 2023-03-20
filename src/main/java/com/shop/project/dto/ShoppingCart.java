@@ -22,5 +22,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShoppingCart {
-	private List<OrderPart> orderProductList = new ArrayList<OrderPart>();
+	private List<OrderPart> orderPartList = new ArrayList<OrderPart>();
 }

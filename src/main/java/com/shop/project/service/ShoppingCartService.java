@@ -20,7 +20,7 @@ public class ShoppingCartService {
 	
 	public List<OrderPart> removeOrderPartByProductId(long productId) {
 		
-		List<OrderPart> orderPartList = shoppingCart.getOrderProductList();
+		List<OrderPart> orderPartList = shoppingCart.getOrderPartList();
 		
 		for(OrderPart orderPart: orderPartList) {
 			if(orderPart.getProduct().getId()==productId) {
@@ -28,13 +28,13 @@ public class ShoppingCartService {
 				break;
 			}
 		}
-		shoppingCart.setOrderProductList(orderPartList);
+		shoppingCart.setOrderPartList(orderPartList);
 		
 		return orderPartList;
 		
 	}
 	
-	public List<OrderPart> setOrderPartByProductId(long productId, int quantity) {
+	public List<OrderPart> changeOrderPartQuantityByProductId(long productId, int quantity) {
 		
 		removeOrderPartByProductId(productId);
 		if(quantity < 1) return new ArrayList<OrderPart>();
@@ -45,22 +45,22 @@ public class ShoppingCartService {
 		orderPart.setProduct(product);
 		orderPart.setQuantity(quantity);
 		
-		List<OrderPart> orderPartList = shoppingCart.getOrderProductList();
+		List<OrderPart> orderPartList = shoppingCart.getOrderPartList();
 		orderPartList.add(orderPart);
-		shoppingCart.setOrderProductList(orderPartList);
+		shoppingCart.setOrderPartList(orderPartList);
 		
 		return orderPartList;
 		
 	}
 	
 	public List<OrderPart> getOrderPartList() {
-		System.out.println("ShoppingCartService >> getOrderPartList() >> isEmpty(): "+shoppingCart.getOrderProductList().isEmpty());
-		return shoppingCart.getOrderProductList();
+		System.out.println("ShoppingCartService >> getOrderPartList() >> isEmpty(): "+shoppingCart.getOrderPartList().isEmpty());
+		return shoppingCart.getOrderPartList();
 	}
 	
 	public List<OrderPart> clearShoppingCart() {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>();
-		shoppingCart.setOrderProductList(orderPartList);
+		shoppingCart.setOrderPartList(orderPartList);
 		return orderPartList;
 	}
 	

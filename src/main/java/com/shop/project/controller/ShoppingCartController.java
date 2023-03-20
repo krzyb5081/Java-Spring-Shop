@@ -19,7 +19,7 @@ public class ShoppingCartController {
 
 	@PostMapping("/addProductToCart")
 	public void setProductQuantity(@RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
-		shoppingCartService.setOrderPartByProductId(productId, quantity);
+		shoppingCartService.changeOrderPartQuantityByProductId(productId, quantity);
 	}
 
 	@PostMapping("/removeProductFromCart")

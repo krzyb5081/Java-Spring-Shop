@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-	
 	private final UserRepository userRepository;
 	
 	public User getByUserName(String userName) {
