@@ -36,8 +36,8 @@ public class ShoppingCartService {
 	
 	public List<OrderPart> changeOrderPartQuantityByProductId(long productId, int quantity) {
 		
-		removeOrderPartByProductId(productId);
-		if(quantity < 1) return new ArrayList<OrderPart>();
+		List<OrderPart> changedOrderProductList = removeOrderPartByProductId(productId);
+		if(quantity < 1) return changedOrderProductList;
 		
 		Product product = productService.getProductById(productId);
 		
@@ -54,7 +54,6 @@ public class ShoppingCartService {
 	}
 	
 	public List<OrderPart> getOrderPartList() {
-		System.out.println("ShoppingCartService >> getOrderPartList() >> isEmpty(): "+shoppingCart.getOrderPartList().isEmpty());
 		return shoppingCart.getOrderPartList();
 	}
 	

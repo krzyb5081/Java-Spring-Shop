@@ -5,7 +5,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +43,11 @@ public class ShoppingCartServiceTests {
 		
 		Mockito.when(shoppingCart.getOrderPartList()).thenReturn(orderPartList);
 		
+		Mockito.when(productService.getProductById(0)).thenReturn(product0);
+		Mockito.when(productService.getProductById(1)).thenReturn(product1);
+		Mockito.when(productService.getProductById(2)).thenReturn(product2);
+		Mockito.when(productService.getProductById(3)).thenReturn(product3);
+		
 	}
 	
 	@Test
@@ -67,8 +71,8 @@ public class ShoppingCartServiceTests {
 		List<OrderPart> newOrderPartList = shoppingCartService.changeOrderPartQuantityByProductId(2, 3);
 		
 		assertEquals(orderPartList.size(), newOrderPartList.size());
-		assertEquals(orderPartList.get(2).getId(), newOrderPartList.get(2).getId());
-		assertEquals(3, newOrderPartList.get(2).getQuantity());
+		assertEquals(orderPartList.get(2).getProduct().getId(), newOrderPartList.get(3).getProduct().getId());
+		assertEquals(3, newOrderPartList.get(3).getQuantity());
 	}
 	
 	@Test
@@ -85,12 +89,16 @@ public class ShoppingCartServiceTests {
 	@Test
 	@DisplayName("getOrderPartList() returns same list as ShoppingCart.getOrderPartList()")
 	void getOrderPartList__returns__same__list__as__ShoppingCart_getOrderPartList() {
+		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
+		List<OrderPart> newOrderPartList = shoppingCartService.getOrderPartList();
 		
+		assertEquals(orderPartList, newOrderPartList);
 	}
 	
 	@Test
-	@DisplayName("clearShoppingCart() returns new List<OrderPart>")
+	@DisplayName("clearShoppingCart() returns empty List<OrderPart>")
 	void clearShoppingCart() {
-		
+		List<OrderPart> emptyShoppingCart = shoppingCartService.clearShoppingCart();
+		assertTrue(emptyShoppingCart.isEmpty());
 	}
 }
