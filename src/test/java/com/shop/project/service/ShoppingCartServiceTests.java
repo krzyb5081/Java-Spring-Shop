@@ -21,9 +21,9 @@ public class ShoppingCartServiceTests {
 	private ProductService productService = Mockito.mock(ProductService.class);
 	
 	@BeforeEach
-	void initShoppingCartService() {
-		shoppingCartService = new ShoppingCartService(shoppingCart, productService);
+	void initShoppingCartService() throws Exception{
 		
+		shoppingCartService = new ShoppingCartService(shoppingCart, productService);
 		
 		Product product0 = new Product(0, "name0", "description0", 1.0, 10);
 		Product product1 = new Product(1, "name1", "description1", 1.0, 10);

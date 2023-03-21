@@ -20,10 +20,10 @@ class UserServiceTests {
 	UserRepository userRepository = Mockito.mock(UserRepository.class);
 	
 	@BeforeEach
-	void initUserServiceTesting() {
+	void initUserServiceTesting() throws Exception{
 		userService = new UserService(userRepository);
 		
-		User savedUser0 = new User(0, "user1", "password1", "user", 151, null);
+		User savedUser0 = new User(0, "user0", "password0", "user", 150, null);
 		User savedUser1 = new User(1, "user1", "password1", "user", 151, null);
 		User savedUser2 = new User(2, "user2", "password2", "user", 152, null);
 		User savedUser3 = new User(3, "user3", "password3", "user", 153, null);

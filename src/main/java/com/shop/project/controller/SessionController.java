@@ -20,7 +20,7 @@ public class SessionController {
 	@PostMapping("/login")
 	public String performLogin(@Valid User user) {
 		
-		if(sessionService.loginUser(user)) {
+		if(sessionService.loginUser(user).getUserName() != null) {
 			return "loginsuccess";
 		} else {
 			return "loginfail";
