@@ -6,20 +6,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.shop.project.dto.UserSession;
+import com.shop.project.dto.Session;
 import com.shop.project.model.User;
 
 class SessionServiceTest {
 
 	private SessionService sessionService;
 	
-	private UserSession userSession = Mockito.spy(new UserSession());
+	private Session session = Mockito.mock(Session.class);
 	private UserService userService = Mockito.mock(UserService.class);
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		sessionService = new SessionService(userSession, userService);
+		sessionService = new SessionService(session, userService);
 		
 		User user0 = new User(0, "user0", "password0", "user", 150, null);
 		User user1 = new User(1, "user1", "password1", "user", 151, null);
@@ -42,13 +42,13 @@ class SessionServiceTest {
 			Long userId = arguments.getArgument(0);
 			assertEquals(1L, userId);
 			return null;
-		}).when(userSession).setUserId(registeredUser.getId());
+		}).when(session).setUserId(registeredUser.getId());
 		
 		Mockito.doAnswer(arguments -> {
 			String userName = arguments.getArgument(0);
 			assertEquals("user1", userName);
 			return null;
-		}).when(userSession).setUserName(registeredUser.getUserName());
+		}).when(session).setUserName(registeredUser.getUserName());
 		
 		sessionService.loginUser(registeredUser);
 	}
@@ -61,13 +61,13 @@ class SessionServiceTest {
 			Long userId = arguments.getArgument(0);
 			assertNotEquals(notRegisteredUser.getId(), userId);
 			return null;
-		}).when(userSession).setUserId(0);
+		}).when(session).setUserId(0);
 		
 		Mockito.doAnswer(arguments -> {
 			String userName = arguments.getArgument(0);
 			assertNotEquals(notRegisteredUser.getUserName(), userName);
 			return null;
-		}).when(userSession).setUserName(null);
+		}).when(session).setUserName(null);
 		
 		sessionService.loginUser(notRegisteredUser);
 	}
@@ -78,20 +78,20 @@ class SessionServiceTest {
 			Long userId = arguments.getArgument(0);
 			assertEquals(0L, userId);
 			return null;
-		}).when(userSession).setUserId(0);
+		}).when(session).setUserId(0);
 		
 		Mockito.doAnswer(arguments -> {
 			String userName = arguments.getArgument(0);
 			assertEquals(null, userName);
 			return null;
-		}).when(userSession).setUserName(null);
+		}).when(session).setUserName(null);
 		
 		sessionService.logoutUser();
 	}
 
 	@Test
 	void GetUserFromSession__Unregistered_User__Return_Null() {
-		Mockito.when(userSession.getUserName()).thenReturn(null);
+		Mockito.when(session.getUserName()).thenReturn(null);
 		
 		assertEquals(null, sessionService.getUserFromSession());
 	}
@@ -100,7 +100,7 @@ class SessionServiceTest {
 	void GetUserFromSession__Registered_User__Return_Found_User() {
 		User registeredUser = new User(2, "user2", "password2", "user", 152, null);
 		
-		Mockito.when(userSession.getUserName()).thenReturn(registeredUser.getUserName());
+		Mockito.when(session.getUserName()).thenReturn(registeredUser.getUserName());
 		
 		assertEquals(registeredUser.getId(), sessionService.getUserFromSession().getId());
 		assertEquals(registeredUser.getUserName(), sessionService.getUserFromSession().getUserName());

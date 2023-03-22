@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSession {
+public class Session {
 	private long userId;
 	private String userName;
 }
