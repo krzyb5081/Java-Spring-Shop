@@ -13,7 +13,7 @@ import com.shop.project.dto.ShoppingCart;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
 
-public class ShoppingCartServiceTests {
+public class ShoppingCartServiceTest {
 	
 	private ShoppingCartService shoppingCartService;
 	
@@ -21,7 +21,7 @@ public class ShoppingCartServiceTests {
 	private ProductService productService = Mockito.mock(ProductService.class);
 	
 	@BeforeEach
-	void initShoppingCartService() throws Exception{
+	void setUp() throws Exception{
 		
 		shoppingCartService = new ShoppingCartService(shoppingCart, productService);
 		
@@ -51,8 +51,8 @@ public class ShoppingCartServiceTests {
 	}
 	
 	@Test
-	@DisplayName("removeOrderPartByProductId() removes OrderPart by OrderPart.product.id")
-	void removeOrderPartByProductId__removes_OrderPart__by__OrderPart_product_id() {
+	@DisplayName("removeOrderPartByProductId() remov OrderPart with given Product id")
+	void removeOrderPartByProductId__Remove_OrderPart_With_Given_Product_Id() {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
 		List<OrderPart> newOrderPartList = shoppingCartService.removeOrderPartByProductId(1);
 		
@@ -63,8 +63,8 @@ public class ShoppingCartServiceTests {
 	}
 	
 	@Test
-	@DisplayName("changeOrderPartQuantityByProductId() in ShoppingCart.orderPartList changes OrderPart.quantity by OrderPart.product.id")
-	void changeOrderPartQuantityByProductId__in_ShoppingCart_orderPartList__changes_OrderPart_quantity__by__OrderPart_product_id() {
+	@DisplayName("changeOrderPartQuantityByProductId() change OrderPart quantity with given Product id")
+	void changeOrderPartQuantityByProductId__Change_OrderPart_Quantity_With_Given_Product_Id() {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
 		assertEquals(5, orderPartList.get(2).getQuantity());
 		
@@ -76,8 +76,8 @@ public class ShoppingCartServiceTests {
 	}
 	
 	@Test
-	@DisplayName("changeOrderPartQuantityByProductId() removes OrderPart from ShoppingCart.orderPartList if OrderPart.quantity is set to 0")
-	void changeOrderPartQuantityByProductId__removes__OrderPart__from__ShoppingCart_orderPartList__if__OrderPart_quantity__is__set__to__0() {
+	@DisplayName("changeOrderPartQuantityByProductId() remove OrderPart from ShoppingCart.orderPartList if OrderPart.quantity is set to 0")
+	void changeOrderPartQuantityByProductId__Remove_OrderPart_From_ShoppingCart_OrderPartList_If_OrderPart_Quantity_Is_Set_To_0() {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
 		List<OrderPart> newOrderPartList = shoppingCartService.changeOrderPartQuantityByProductId(3, 0);
 		
@@ -87,8 +87,8 @@ public class ShoppingCartServiceTests {
 	}
 	
 	@Test
-	@DisplayName("getOrderPartList() returns same list as ShoppingCart.getOrderPartList()")
-	void getOrderPartList__returns__same__list__as__ShoppingCart_getOrderPartList() {
+	@DisplayName("getOrderPartList() return same list as ShoppingCart.getOrderPartList()")
+	void getOrderPartList__Return__Same_list_As_ShoppingCart_GetOrderPartList() {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
 		List<OrderPart> newOrderPartList = shoppingCartService.getOrderPartList();
 		
@@ -96,8 +96,8 @@ public class ShoppingCartServiceTests {
 	}
 	
 	@Test
-	@DisplayName("clearShoppingCart() returns empty List<OrderPart>")
-	void clearShoppingCart() {
+	@DisplayName("clearShoppingCart() return empty List<OrderPart>")
+	void clearShoppingCart__Return_Empty_List() {
 		List<OrderPart> emptyShoppingCart = shoppingCartService.clearShoppingCart();
 		assertTrue(emptyShoppingCart.isEmpty());
 	}
