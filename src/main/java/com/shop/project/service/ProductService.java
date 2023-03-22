@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import com.shop.project.model.Product;
 import com.shop.project.repository.ProductRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-	@Autowired
-	ProductRepository productRepository;
+	private final ProductRepository productRepository;
 	
 	public Product getProductById(long productId) {
 		return productRepository.findById(productId).get();
