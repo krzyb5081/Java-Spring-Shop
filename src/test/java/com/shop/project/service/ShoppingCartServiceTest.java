@@ -68,11 +68,12 @@ public class ShoppingCartServiceTest {
 		List<OrderPart> orderPartList = new ArrayList<OrderPart>(shoppingCart.getOrderPartList());
 		assertEquals(5, orderPartList.get(2).getQuantity());
 		
-		List<OrderPart> newOrderPartList = shoppingCartService.changeOrderPartQuantityByProductId(2, 3);
+		int updatedQuantity = 3;
+		List<OrderPart> newOrderPartList = shoppingCartService.changeOrderPartQuantityByProductId(2, updatedQuantity);
 		
 		assertEquals(orderPartList.size(), newOrderPartList.size());
-		assertEquals(orderPartList.get(2).getProduct().getId(), newOrderPartList.get(3).getProduct().getId());
-		assertEquals(3, newOrderPartList.get(3).getQuantity());
+		assertEquals(orderPartList.get(2).getProduct(), newOrderPartList.get(3).getProduct());
+		assertEquals(updatedQuantity, newOrderPartList.get(3).getQuantity());
 	}
 	
 	@Test

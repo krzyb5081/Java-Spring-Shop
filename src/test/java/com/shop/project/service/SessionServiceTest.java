@@ -99,12 +99,10 @@ class SessionServiceTest {
 	@Test
 	void GetUserFromSession__Registered_User__Return_Found_User() {
 		User registeredUser = new User(2, "user2", "password2", "user", 152, null);
-		
 		Mockito.when(session.getUserName()).thenReturn(registeredUser.getUserName());
 		
-		assertEquals(registeredUser.getId(), sessionService.getUserFromSession().getId());
-		assertEquals(registeredUser.getUserName(), sessionService.getUserFromSession().getUserName());
-		assertEquals(registeredUser.getMoney(), sessionService.getUserFromSession().getMoney());
+		assertEquals(registeredUser, sessionService.getUserFromSession());
+		
 	}
 
 }

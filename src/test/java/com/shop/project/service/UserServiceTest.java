@@ -45,9 +45,7 @@ class UserServiceTest {
 		User savedUser2 = new User(2, "user2", "password2", "user", 152, null);
 		User foundUser = userService.getByUserName("user2");
 		
-		assertEquals(foundUser.getUserName(), savedUser2.getUserName());
-		assertEquals(foundUser.getPassword(), savedUser2.getPassword());
-		assertEquals(foundUser.getMoney(), savedUser2.getMoney());
+		assertEquals(foundUser, savedUser2);
 	}
 	
 	@Test
