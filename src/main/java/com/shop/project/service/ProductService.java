@@ -1,11 +1,9 @@
 package com.shop.project.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shop.project.model.Product;
@@ -20,13 +18,24 @@ public class ProductService {
 	private final ProductRepository productRepository;
 	
 	public Product getProductById(long productId) {
-		return productRepository.findById(productId).get();
+		try {
+			return productRepository.findById(productId).get();
+		}
+		catch(NoSuchElementException exception) {
+			return null;
+		}
+			
 	}
 	
-	public void decreaseProductQuantity(long productId, int decreaseBy) {
+	public Product decreaseProductQuantity(long productId, int decreaseBy) {
 		Product product = getProductById(productId);
-		product.setQuantityAvailable(product.getQuantityAvailable()-decreaseBy);
-		productRepository.save(product);
+		
+		if(product != null) {
+			product.setQuantityAvailable(product.getQuantityAvailable()-decreaseBy);
+			product = productRepository.save(product);	
+		}
+		
+		return product;
 	}
 	
 	public void addProduct(Product product) {
@@ -35,15 +44,6 @@ public class ProductService {
 	
 	public void changeProductProperties(Product changedProduct) {
 		productRepository.save(changedProduct);
-	}
-	
-	public Map<Long,Product> getProductMap(){
-		Map<Long,Product> productMap = new HashMap<Long,Product>();
-		
-		productRepository.findAll().forEach(product->{
-			productMap.put(product.getId(), product);
-		});
-		return productMap;
 	}
 	
 	public List<Product> getProductList(){
@@ -57,8 +57,8 @@ public class ProductService {
 	
 	public List<Product> searchProducts(String searchText) {
 		
-		List<Product> productFoundList = productRepository.findBySearchText(searchText);
+		List<Product> foundProductsList = productRepository.findBySearchText(searchText);
 		
-		return productFoundList;
+		return foundProductsList;
 	}
 }
