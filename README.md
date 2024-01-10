@@ -25,9 +25,9 @@ Project is still in progress and I am learning new technologies.
 - Customers are able to chat with merchants (in progress)
 - Unit tests (in progress)
 
-## Launch
+## Launch on Eclipse (for web dev)
 1. Clone repository https://github.com/krzyb5081/Java-Spring-Shop.git
-2. Setup MySQL server and create database
+2. Setup MySQL server and create database (you can use XAMPP for example - https://www.apachefriends.org)
 3. Change database connection settings in Java-Spring-Shop/src/main/resources/[application.properties](src/main/resources/application.properties)
 4. Edit spring.datasource.url=jdbc:mysql://[host]:[port]/[database name] - for example jdbc:mysql://localhost:3306/shop_db
 5. Edit spring.datasource.username=[database username]
