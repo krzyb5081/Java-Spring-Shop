@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import com.shop.project.model.Product;
 import com.shop.project.repository.ProductRepository;
 
-class ProductServiceTest {
+public class ProductServiceTest {
 
 	ProductService productService;
 	

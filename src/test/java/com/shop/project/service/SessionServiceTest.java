@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import com.shop.project.dto.Session;
 import com.shop.project.model.User;
 
-class SessionServiceTest {
+public class SessionServiceTest {
 
 	private SessionService sessionService;
 	

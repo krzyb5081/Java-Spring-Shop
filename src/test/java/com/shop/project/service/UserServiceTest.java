@@ -13,7 +13,7 @@ import com.shop.project.dto.UserDto;
 import com.shop.project.model.User;
 import com.shop.project.repository.UserRepository;
 
-class UserServiceTest {
+public class UserServiceTest {
 
 	private UserService userService;
 	
