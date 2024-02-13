@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import com.shop.project.model.Order;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.User;
-import com.shop.project.repository.OrderProductRepository;
+import com.shop.project.repository.OrderPartRepository;
 import com.shop.project.repository.OrderRepository;
+import com.shop.project.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,39 +17,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderService {
 	
+	private final OrderPartRepository orderPartRepository;
 	private final OrderRepository orderRepository;
-	private final OrderProductRepository orderProductRepository;
+	private final UserRepository userRepository;
 	private final ProductService productService;
 	private final ShoppingCartService shoppingCartService;
 	private final SessionService sessionService;
 	
 	public String makeOrder() {
-		System.out.println("OrderService>>makeOrder()>>");
+		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
+		Order order = new Order();
+		User user = sessionService.getUserFromSession();
+		
 		if(sessionService.getUserFromSession() == null) {
-			System.out.println("You have to login first");
 			return "You have to login first";
 		}
 		if(this.checkAvailability()==false) {
-			System.out.println("No product available");
 			return "No product available";
 		}
-		
-		List<OrderPart> orderProductList = shoppingCartService.getOrderPartList();
-		if(orderProductList.isEmpty()) {
-			System.out.println("Cannot make order with empty cart");
+		if(orderPartList.isEmpty()) {
 			return "Cannot make order with empty cart";
 		}
-		User user = sessionService.getUserFromSession();
-		Order order = new Order();
 		
-		orderProductList.forEach(orderProduct -> {
-			orderProduct.setOrder(order);
+		
+		orderPartList.forEach(orderPart -> {
+			long productId = orderPart.getProduct().getId();
 			
-			long productId = orderProduct.getProduct().getId();
-			productService.decreaseProductQuantity(productId, orderProduct.getQuantity());
+			orderPart.setOrder(order);
+			productService.decreaseProductQuantity(productId, orderPart.getQuantity());
 		});
 		
-		order.setOrderProductList(orderProductList);
+		order.setOrderPartList(orderPartList);
 		order.setUser(user);
 		order.setStatus("paid");
 		
@@ -56,8 +55,9 @@ public class OrderService {
 		orderList.add(order);
 		user.setOrderList(orderList);
 		
-		orderProductRepository.saveAll(orderProductList);
+		orderPartRepository.saveAll(orderPartList);
 		orderRepository.save(order);
+		userRepository.save(user);
 		
 		shoppingCartService.clearShoppingCart();
 		

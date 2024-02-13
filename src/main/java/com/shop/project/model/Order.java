@@ -40,5 +40,5 @@ public class Order {
 	
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrderPart> orderProductList;
+	private List<OrderPart> orderPartList;
 }
