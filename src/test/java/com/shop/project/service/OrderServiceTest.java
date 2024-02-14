@@ -52,32 +52,50 @@ public class OrderServiceTest {
 	}
 	
 	@Test
-	@DisplayName("makeOrder() works")
-	void makeOrderTest() {
+	@DisplayName("makeOrder() check if user is logged in")
+	void makeOrder_Check_If_User_Is_Logged_In() {
+		orderService.makeOrder();
+	}
+	
+	@Test
+	@DisplayName("makeOrder() check if cart is empty")
+	void makeOrder_Check_If_Cart_Is_Empty() {
+		orderService.makeOrder();
+	}
+	
+	@Test
+	@DisplayName("makeOrder() check products availability")
+	void makeOrder_Check_Products_Availability() {
+		orderService.makeOrder();
+	}
+	
+	@Test
+	@DisplayName("makeOrder() set everything right")
+	void makeOrder_Set_Everything_Right() {
+		orderService.makeOrder();
+	}
+	
+	@Test
+	@DisplayName("getMyOrders() return only orders belonging to logged in user")
+	void getMyOrders_Return_Only_Orders_Belonging_To_User() {
 		
 	}
 	
 	@Test
-	@DisplayName("getMyOrders() works")
-	void getMyOrdersTest() {
+	@DisplayName("getAllOrders() return every order")
+	void getAllOrders_Return_Every_Order() {
 		
 	}
 	
 	@Test
-	@DisplayName("getAllOrders() works")
-	void getAllOrdersTest() {
+	@DisplayName("checkAvailability() return true only when every every product is available with expected quantity")
+	void checkAvailability_Return_True_When_Everything_Is_Available() {
 		
 	}
 	
 	@Test
-	@DisplayName("checkAvailability() works")
-	void checkAvailabilityTest() {
-		
-	}
-	
-	@Test
-	@DisplayName("getOrderCost() works")
-	void getOrderCostTest() {
+	@DisplayName("getOrderCost() calculate order cost")
+	void getOrderCost_Calculate_Order_Cost() {
 		
 	}
 }

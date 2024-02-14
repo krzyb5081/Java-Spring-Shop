@@ -24,19 +24,22 @@ public class OrderService {
 	private final ShoppingCartService shoppingCartService;
 	private final SessionService sessionService;
 	
-	public String makeOrder() {
+	public Order makeOrder() {
 		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		Order order = new Order();
 		User user = sessionService.getUserFromSession();
 		
 		if(sessionService.getUserFromSession() == null) {
-			return "You have to login first";
+			//return "You have to login first";
+			return order;
 		}
 		if(this.checkAvailability()==false) {
-			return "No product available";
+			//return "No product available";
+			return order;
 		}
 		if(orderPartList.isEmpty()) {
-			return "Cannot make order with empty cart";
+			//return "Cannot make order with empty cart";
+			return order;
 		}
 		
 		
@@ -62,7 +65,8 @@ public class OrderService {
 		shoppingCartService.clearShoppingCart();
 		
 		System.out.println("Order made");
-		return "Order made";
+		//return "Order made";
+		return order;
 	}
 	
 	public List<Order> getMyOrders() {

@@ -31,7 +31,7 @@ public class OrderController {
 	}
 	
 	@GetMapping("/makeOrder")
-	public String makeOrder() {
+	public Order makeOrder() {
 		return orderService.makeOrder();
 	}
 	
