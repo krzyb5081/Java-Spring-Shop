@@ -1,16 +1,28 @@
 package com.shop.project.service;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.shop.project.dto.ShoppingCart;
+import com.shop.project.model.Order;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
+import com.shop.project.model.User;
 import com.shop.project.repository.OrderPartRepository;
 import com.shop.project.repository.OrderRepository;
 import com.shop.project.repository.UserRepository;
@@ -30,6 +42,9 @@ public class OrderServiceTest {
 	@BeforeEach
 	void setUp() throws Exception{
 		orderService = new OrderService(orderPartRepository,orderRepository,userRepository,productService,shoppingCartService,sessionService);
+		
+		
+		
 		
 		Product product0 = new Product(0, "name0", "description0", 1.0, 10);
 		Product product1 = new Product(1, "name1", "description1", 1.0, 10);
@@ -54,7 +69,15 @@ public class OrderServiceTest {
 	@Test
 	@DisplayName("makeOrder() check if user is logged in")
 	void makeOrder_Check_If_User_Is_Logged_In() {
-		orderService.makeOrder();
+		User user1 = new User();
+		user1.setUserName("User1");
+		
+		Mockito.when(sessionService.getUserFromSession()).thenReturn(null);
+		assertTrue(orderService.makeOrder() == null);
+
+		Mockito.when(sessionService.getUserFromSession()).thenReturn(user1);
+		assertTrue(orderService.makeOrder() != null);
+		
 	}
 	
 	@Test

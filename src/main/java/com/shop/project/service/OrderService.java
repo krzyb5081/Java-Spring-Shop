@@ -31,15 +31,15 @@ public class OrderService {
 		
 		if(sessionService.getUserFromSession() == null) {
 			//return "You have to login first";
-			return order;
+			return null;
 		}
 		if(this.checkAvailability()==false) {
 			//return "No product available";
-			return order;
+			return null;
 		}
 		if(orderPartList.isEmpty()) {
 			//return "Cannot make order with empty cart";
-			return order;
+			return null;
 		}
 		
 		
