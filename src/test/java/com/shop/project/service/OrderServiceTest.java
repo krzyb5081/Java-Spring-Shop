@@ -5,21 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.shop.project.dto.ShoppingCart;
-import com.shop.project.model.Order;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
 import com.shop.project.model.User;
@@ -73,10 +64,10 @@ public class OrderServiceTest {
 		user1.setUserName("User1");
 		
 		Mockito.when(sessionService.getUserFromSession()).thenReturn(null);
-		assertTrue(orderService.makeOrder() == null);
+		assertTrue(orderService.makeOrder().getUser() == null);
 
 		Mockito.when(sessionService.getUserFromSession()).thenReturn(user1);
-		assertTrue(orderService.makeOrder() != null);
+		assertTrue(orderService.makeOrder().getUser() == user1);
 		
 	}
 	

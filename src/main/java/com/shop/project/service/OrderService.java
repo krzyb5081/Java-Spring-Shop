@@ -25,23 +25,11 @@ public class OrderService {
 	private final SessionService sessionService;
 	
 	public Order makeOrder() {
-		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
+		
 		Order order = new Order();
+		
 		User user = sessionService.getUserFromSession();
-		
-		if(sessionService.getUserFromSession() == null) {
-			//return "You have to login first";
-			return null;
-		}
-		if(this.checkAvailability()==false) {
-			//return "No product available";
-			return null;
-		}
-		if(orderPartList.isEmpty()) {
-			//return "Cannot make order with empty cart";
-			return null;
-		}
-		
+		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		
 		orderPartList.forEach(orderPart -> {
 			long productId = orderPart.getProduct().getId();
@@ -53,6 +41,20 @@ public class OrderService {
 		order.setOrderPartList(orderPartList);
 		order.setUser(user);
 		order.setStatus("paid");
+		
+		if(user == null) {
+			//return "You have to login first";
+			return order;
+		}
+		if(orderPartList.isEmpty()) {
+			//return "Cannot make order with empty cart";
+			return order;
+		}
+		if(this.checkAvailability()==false) {
+			//return "No product available";
+			return order;
+		}
+		
 		
 		List<Order> orderList = user.getOrderList();
 		orderList.add(order);
