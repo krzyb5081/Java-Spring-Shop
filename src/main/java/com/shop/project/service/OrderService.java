@@ -25,28 +25,15 @@ public class OrderService {
 	private final SessionService sessionService;
 	
 	public Order makeOrder() {
-		
 		Order order = new Order();
-		
 		User user = sessionService.getUserFromSession();
-		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		
-		orderPartList.forEach(orderPart -> {
-			long productId = orderPart.getProduct().getId();
-			
-			orderPart.setOrder(order);
-			productService.decreaseProductQuantity(productId, orderPart.getQuantity());
-		});
-		
-		order.setOrderPartList(orderPartList);
-		order.setUser(user);
-		order.setStatus("paid");
-		
-		if(user == null) {
+		//safety checks
+		if(sessionService.getUserFromSession() == null) {
 			//return "You have to login first";
 			return order;
 		}
-		if(orderPartList.isEmpty()) {
+		if(shoppingCartService.getOrderPartList().isEmpty()) {
 			//return "Cannot make order with empty cart";
 			return order;
 		}
@@ -55,14 +42,30 @@ public class OrderService {
 			return order;
 		}
 		
+		//bonding Order to OrderParts
+		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
+		orderPartList.forEach(orderPart -> {
+			orderPart.setOrder(order);
+			productService.decreaseProductQuantity(orderPart.getProduct().getId(), orderPart.getQuantity());
+		});
 		
+		//setting Order fields
+		order.setOrderPartList(orderPartList);
+		order.setUser(user);
+		order.setStatus("not paid");
+		
+		//bonding new Order to User
 		List<Order> orderList = user.getOrderList();
 		orderList.add(order);
 		user.setOrderList(orderList);
 		
+		//saving data to repositories
 		orderPartRepository.saveAll(orderPartList);
 		orderRepository.save(order);
 		userRepository.save(user);
+		orderPartList.forEach(orderPart -> {
+			productService.decreaseProductQuantity(orderPart.getProduct().getId(), orderPart.getQuantity());
+		});
 		
 		shoppingCartService.clearShoppingCart();
 		
