@@ -25,52 +25,50 @@ public class OrderService {
 	private final SessionService sessionService;
 	
 	public Order makeOrder() {
+		
 		Order order = new Order();
+		order.setStatus("not paid");
+		
+		
+		//user logged check
+		if(sessionService.getUserFromSession() == null) return order;
 		User user = sessionService.getUserFromSession();
+		order.setUser(user);
 		
-		//safety checks
-		if(sessionService.getUserFromSession() == null) {
-			//return "You have to login first";
-			return order;
-		}
-		if(shoppingCartService.getOrderPartList().isEmpty()) {
-			//return "Cannot make order with empty cart";
-			return order;
-		}
-		if(this.checkAvailability()==false) {
-			//return "No product available";
-			return order;
-		}
 		
-		//bonding Order to OrderParts
+		//cart not empty check
+		if(shoppingCartService.getOrderPartList().isEmpty()) return order;
+		//bonding orderParts to Order
 		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		orderPartList.forEach(orderPart -> {
 			orderPart.setOrder(order);
+		});
+		order.setOrderPartList(orderPartList);
+		
+		
+		//adding new order to users order list
+		List<Order> usersOrderList = user.getOrderList();
+		usersOrderList.add(order);
+		user.setOrderList(usersOrderList);
+		
+		
+		//products availability check
+		if(this.checkAvailability()==false) return order;
+		//removing products from storage (decreasing quantity)
+		orderPartList.forEach(orderPart -> {
 			productService.decreaseProductQuantity(orderPart.getProduct().getId(), orderPart.getQuantity());
 		});
 		
-		//setting Order fields
-		order.setOrderPartList(orderPartList);
-		order.setUser(user);
-		order.setStatus("not paid");
-		
-		//bonding new Order to User
-		List<Order> orderList = user.getOrderList();
-		orderList.add(order);
-		user.setOrderList(orderList);
 		
 		//saving data to repositories
 		orderPartRepository.saveAll(orderPartList);
 		orderRepository.save(order);
 		userRepository.save(user);
-		orderPartList.forEach(orderPart -> {
-			productService.decreaseProductQuantity(orderPart.getProduct().getId(), orderPart.getQuantity());
-		});
 		
+		
+		//status just for check (not saved in database)
+		order.setStatus("Succesfully made");
 		shoppingCartService.clearShoppingCart();
-		
-		System.out.println("Order made");
-		//return "Order made";
 		return order;
 	}
 	
