@@ -37,7 +37,7 @@ public class OrderService {
 		
 		
 		//cart not empty check
-		if(shoppingCartService.getOrderPartList().isEmpty()) return order;
+		if(shoppingCartService.getOrderPartList() == null) return order;
 		//bonding orderParts to Order
 		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		orderPartList.forEach(orderPart -> {
@@ -45,9 +45,10 @@ public class OrderService {
 		});
 		order.setOrderPartList(orderPartList);
 		
-		
+		//TODO: user.getOrderList == null
 		//adding new order to users order list
 		List<Order> usersOrderList = user.getOrderList();
+		if(usersOrderList == null) usersOrderList = new ArrayList<Order>();
 		usersOrderList.add(order);
 		user.setOrderList(usersOrderList);
 		
