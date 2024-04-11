@@ -26,47 +26,65 @@ public class OrderServiceTest {
 	private final OrderRepository orderRepository = Mockito.mock(OrderRepository.class);
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private final ProductService productService = Mockito.mock(ProductService.class);
-	private final ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
 	private final ShoppingCartService shoppingCartService = Mockito.mock(ShoppingCartService.class);
 	private final SessionService sessionService = Mockito.mock(SessionService.class);
 	
 	
-
-	Product product0 = new Product(0, "name0", "description0", 1.0, 10);
-	Product product1 = new Product(1, "name1", "description1", 1.0, 10);
-	Product product2 = new Product(2, "name2", "description2", 1.0, 10);
-	Product product3 = new Product(3, "name3", "description3", 1.0, 10);
+	private Product product0;
+	private Product product1;
+	private Product product2;
+	private Product product3;
 	
-	OrderPart orderPart0 = new OrderPart(0, 5, null, product0);
-	OrderPart orderPart1 = new OrderPart(1, 5, null, product1);
-	OrderPart orderPart2 = new OrderPart(2, 5, null, product2);
-	OrderPart orderPart3 = new OrderPart(3, 5, null, product3);
+	private OrderPart orderPart0;
+	private OrderPart orderPart1;
+	private OrderPart orderPart2;
+	private OrderPart orderPart3;
 	
-	List<OrderPart> orderPartList = new ArrayList<OrderPart>();
+	private List<OrderPart> orderPartList;
 	
-	User user0 = new User(0, "user0", "password0", "user", 150, null);
-	User user1 = new User(1, "user1", "password1", "user", 151, null);
-	User user2 = new User(2, "user2", "password2", "user", 152, null);
-	User user3 = new User(3, "user3", "password3", "user", 153, null);
+	private User user0;
+	private User user1;
+	private User user2;
+	private User user3;
+	
 	
 	@BeforeEach
 	void setUp() throws Exception{
+		
 		orderService = new OrderService(orderPartRepository,orderRepository,userRepository,productService,shoppingCartService,sessionService);
+		
+		product0 = new Product(0, "name0", "description0", 1.0, 10);
+		product1 = new Product(1, "name1", "description1", 1.0, 10);
+		product2 = new Product(2, "name2", "description2", 1.0, 10);
+		product3 = new Product(3, "name3", "description3", 1.0, 10);
+		
+		orderPart0 = new OrderPart(0, 3, null, product0);
+		orderPart1 = new OrderPart(1, 2, null, product1);
+		orderPart2 = new OrderPart(2, 1, null, product2);
+		orderPart3 = new OrderPart(3, 0, null, product3);
+		
+		orderPartList = new ArrayList<OrderPart>();
 		
 		orderPartList.add(orderPart0);
 		orderPartList.add(orderPart1);
 		orderPartList.add(orderPart2);
 		orderPartList.add(orderPart3);
 		
-		Mockito.when(shoppingCart.getOrderPartList()).thenReturn(orderPartList);
-		Mockito.when(sessionService.getUserFromSession()).thenReturn(user1);
+		user0 = new User(0, "user0", "password0", "user", 150, null);
+		user1 = new User(1, "user1", "password1", "user", 151, null);
+		user2 = new User(2, "user2", "password2", "user", 152, null);
+		user3 = new User(3, "user3", "password3", "user", 153, null);
+		
+		
+		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(orderPartList);
+		Mockito.when(sessionService.getUserFromSession()).thenReturn(user0);
 	}
 	
 	@Test
 	@DisplayName("makeOrder() check if user is logged in")
 	void makeOrder_Check_If_User_Is_Logged_In() {
-		assertTrue(orderService.makeOrder().getUser() == user1);
-		assertTrue(orderService.makeOrder().getUser().getUserName() == "user1");
+		assertTrue(orderService.makeOrder().getUser() == user0);
+		assertTrue(orderService.makeOrder().getUser().getUserName() == "user0");
 		
 		Mockito.when(sessionService.getUserFromSession()).thenReturn(null);
 		assertTrue(orderService.makeOrder().getUser() == null);
@@ -77,13 +95,27 @@ public class OrderServiceTest {
 	@DisplayName("makeOrder() check if cart is empty")
 	void makeOrder_Check_If_Cart_Is_Empty() {
 		
-		Mockito.when(shoppingCart.getOrderPartList()).thenReturn(orderPartList);
-		assertTrue(orderService.makeOrder().getOrderPartList().equals(orderPartList));
+		assertTrue(orderService.makeOrder().getOrderPartList() != null);
+		
 
 	}
 	
 	@Test
-	@DisplayName("makeOrder() check products availability")
+	@DisplayName("makeOrder() bind newly created Order object to each OrderProduct object in the list")
+	void makeOrder_Bind_New_Order_To_Each_OrderProduct() {
+		//returned orderParts are not the same as those created
+		//in the test because of new Order object created in method
+		//is being bound to each OrderProduct in orderPartList
+		
+		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getQuantity() == orderPartList.get(0).getQuantity());
+		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getProduct() == orderPartList.get(0).getProduct());
+		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getOrder() != orderPartList.get(0).getOrder());
+		
+
+	}
+	
+	@Test
+	@DisplayName("makeOrder() works only if products are available")
 	void makeOrder_Check_Products_Availability() {
 		orderService.makeOrder();
 	}

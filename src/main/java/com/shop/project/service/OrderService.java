@@ -45,7 +45,7 @@ public class OrderService {
 		});
 		order.setOrderPartList(orderPartList);
 		
-		//TODO: user.getOrderList == null
+		
 		//adding new order to users order list
 		List<Order> usersOrderList = user.getOrderList();
 		if(usersOrderList == null) usersOrderList = new ArrayList<Order>();
