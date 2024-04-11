@@ -77,6 +77,7 @@ public class OrderServiceTest {
 	@DisplayName("makeOrder() check if cart is empty")
 	void makeOrder_Check_If_Cart_Is_Empty() {
 		
+		Mockito.when(shoppingCart.getOrderPartList()).thenReturn(orderPartList);
 		assertTrue(orderService.makeOrder().getOrderPartList().equals(orderPartList));
 
 	}
