@@ -32,7 +32,7 @@ public class OrderController {
 	
 	@GetMapping("/makeOrder")
 	public Order makeOrder() {
-		return orderService.makeOrder();
+		return orderService.makeOrder().values().iterator().next();
 	}
 	
 	

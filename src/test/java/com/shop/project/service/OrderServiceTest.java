@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.shop.project.dto.ShoppingCart;
+import com.shop.project.model.Order;
 import com.shop.project.model.OrderPart;
 import com.shop.project.model.Product;
 import com.shop.project.model.User;
@@ -83,47 +83,60 @@ public class OrderServiceTest {
 	@Test
 	@DisplayName("makeOrder() check if user is logged in")
 	void makeOrder_Check_If_User_Is_Logged_In() {
-		assertTrue(orderService.makeOrder().getUser() == user0);
-		assertTrue(orderService.makeOrder().getUser().getUserName() == "user0");
+		Order resultOrder;
+		resultOrder = orderService.makeOrder().values().iterator().next();
+		
+		assertTrue(resultOrder.getUser() == user0);
+		assertTrue(resultOrder.getUser().getUserName() == "user0");
 		
 		Mockito.when(sessionService.getUserFromSession()).thenReturn(null);
-		assertTrue(orderService.makeOrder().getUser() == null);
+		resultOrder = orderService.makeOrder().values().iterator().next();
+		
+		assertTrue(resultOrder.getUser() == null);
 		
 	}
 	
 	@Test
 	@DisplayName("makeOrder() check if cart is empty")
 	void makeOrder_Check_If_Cart_Is_Empty() {
+		Order resultOrder;
+		resultOrder  = orderService.makeOrder().values().iterator().next();
 		
-		assertTrue(orderService.makeOrder().getOrderPartList() != null);
+		assertTrue(resultOrder.getOrderPartList() != null);
 		
-
 	}
 	
 	@Test
 	@DisplayName("makeOrder() bind newly created Order object to each OrderProduct object in the list")
 	void makeOrder_Bind_New_Order_To_Each_OrderProduct() {
-		//returned orderParts are not the same as those created
-		//in the test because of new Order object created in method
-		//is being bound to each OrderProduct in orderPartList
+		Order resultOrder;
+		resultOrder  = orderService.makeOrder().values().iterator().next();
 		
-		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getQuantity() == orderPartList.get(0).getQuantity());
-		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getProduct() == orderPartList.get(0).getProduct());
-		//assertTrue(orderService.makeOrder().getOrderPartList().get(0).getOrder() != orderPartList.get(0).getOrder());
+		assertTrue(resultOrder.getOrderPartList().get(0).getQuantity() == orderPartList.get(0).getQuantity());
+		assertTrue(resultOrder.getOrderPartList().get(0).getOrder() != null);
+		assertTrue(resultOrder.getOrderPartList().get(0).getOrder().getOrderPartList() == orderPartList);
 		
-
 	}
 	
 	@Test
 	@DisplayName("makeOrder() works only if products are available")
 	void makeOrder_Check_Products_Availability() {
-		orderService.makeOrder();
+		List<OrderPart> orderPartListWrongQuantity = new ArrayList<OrderPart>();
+		orderPartListWrongQuantity.add(new OrderPart(0, 7777, null, product0));
+		
+		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(orderPartListWrongQuantity);
+		assertTrue(orderService.makeOrder().containsKey(false));
+		
+		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(this.orderPartList);
+		assertTrue(orderService.makeOrder().containsKey(true));
+		
 	}
 	
 	@Test
 	@DisplayName("makeOrder() set everything right")
 	void makeOrder_Set_Everything_Right() {
-		orderService.makeOrder();
+		assertTrue(orderService.makeOrder().containsKey(true));
+		
 	}
 	
 	@Test

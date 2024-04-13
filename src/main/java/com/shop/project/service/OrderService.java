@@ -1,7 +1,10 @@
 package com.shop.project.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.shop.project.model.Order;
@@ -24,20 +27,28 @@ public class OrderService {
 	private final ShoppingCartService shoppingCartService;
 	private final SessionService sessionService;
 	
-	public Order makeOrder() {
+	public Map<Boolean, Order> makeOrder() {
+		Map<Boolean, Order> returnMap = new HashMap<>();
 		
 		Order order = new Order();
 		order.setStatus("not paid");
 		
 		
 		//user logged check
-		if(sessionService.getUserFromSession() == null) return order;
+		if(sessionService.getUserFromSession() == null) {
+			returnMap.put(false, order);
+			return returnMap;
+		}
 		User user = sessionService.getUserFromSession();
 		order.setUser(user);
 		
 		
 		//cart not empty check
-		if(shoppingCartService.getOrderPartList() == null) return order;
+		if(shoppingCartService.getOrderPartList() == null){
+			returnMap.put(false, order);
+			return returnMap;
+		}
+		
 		//bonding orderParts to Order
 		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		orderPartList.forEach(orderPart -> {
@@ -54,7 +65,11 @@ public class OrderService {
 		
 		
 		//products availability check
-		if(this.checkAvailability()==false) return order;
+		if(this.checkAvailability()==false){
+			returnMap.put(false, order);
+			return returnMap;
+		}
+		
 		//removing products from storage (decreasing quantity)
 		orderPartList.forEach(orderPart -> {
 			productService.decreaseProductQuantity(orderPart.getProduct().getId(), orderPart.getQuantity());
@@ -66,11 +81,11 @@ public class OrderService {
 		orderRepository.save(order);
 		userRepository.save(user);
 		
-		
-		//status just for check (not saved in database)
-		order.setStatus("Succesfully made");
+		//empty the shopping cart
 		shoppingCartService.clearShoppingCart();
-		return order;
+		
+		returnMap.put(true, order);
+		return returnMap;
 	}
 	
 	public List<Order> getMyOrders() {
