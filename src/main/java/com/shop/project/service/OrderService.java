@@ -89,18 +89,10 @@ public class OrderService {
 	}
 	
 	public boolean checkAvailability() {
-		List<OrderPart> cartProductList = shoppingCartService.getOrderPartList();
+		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		
-		for(OrderPart cartProduct: cartProductList) {
-			
-			long productId = cartProduct.getProduct().getId();
-			int quantity = cartProduct.getQuantity();
-			
-			int quantityAvailable = productService.getProductById(productId).getQuantityAvailable();
-			
-			if(quantityAvailable < quantity) {
-				return false;
-			}
+		for(OrderPart orderPart: orderPartList) {
+			if(orderPart.getQuantity() > orderPart.getProduct().getQuantityAvailable()) return false;
 		}
 		
 		return true;
