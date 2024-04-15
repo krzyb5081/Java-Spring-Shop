@@ -116,11 +116,11 @@ public class OrderService {
 	public double getOrderCost() {
 		double cost = 0;
 		
-		List<OrderPart> cartOrderProductList = shoppingCartService.getOrderPartList();
+		List<OrderPart> orderPartList = shoppingCartService.getOrderPartList();
 		
-		for(OrderPart cartOrderProduct: cartOrderProductList) {
-			double price = cartOrderProduct.getProduct().getPrice();
-			int quantity = cartOrderProduct.getQuantity();
+		for(OrderPart orderPart: orderPartList) {
+			double price = orderPart.getProduct().getPrice();
+			double quantity = orderPart.getQuantity();
 			
 			cost += price*quantity;
 		}

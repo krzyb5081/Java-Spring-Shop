@@ -43,9 +43,6 @@ public class OrderServiceTest {
 	private List<OrderPart> orderPartList;
 	
 	private User user0;
-	private User user1;
-	private User user2;
-	private User user3;
 	
 	
 	@BeforeEach
@@ -53,15 +50,15 @@ public class OrderServiceTest {
 		
 		orderService = new OrderService(orderPartRepository,orderRepository,userRepository,productService,shoppingCartService,sessionService);
 		
-		product0 = new Product(0, "name0", "description0", 1.0, 10);
-		product1 = new Product(1, "name1", "description1", 1.0, 10);
-		product2 = new Product(2, "name2", "description2", 1.0, 10);
-		product3 = new Product(3, "name3", "description3", 1.0, 10);
+		product0 = new Product(0, "name0", "description0", 2.0, 10);
+		product1 = new Product(1, "name1", "description1", 3.3, 10);
+		product2 = new Product(2, "name2", "description2", 4.4, 10);
+		product3 = new Product(3, "name3", "description3", 5.5, 10);
 		
-		orderPart0 = new OrderPart(0, 3, null, product0);
-		orderPart1 = new OrderPart(1, 2, null, product1);
-		orderPart2 = new OrderPart(2, 1, null, product2);
-		orderPart3 = new OrderPart(3, 0, null, product3);
+		orderPart0 = new OrderPart(0, 4, null, product0);
+		orderPart1 = new OrderPart(1, 3, null, product1);
+		orderPart2 = new OrderPart(2, 2, null, product2);
+		orderPart3 = new OrderPart(3, 1, null, product3);
 		
 		orderPartList = new ArrayList<OrderPart>();
 		
@@ -71,9 +68,6 @@ public class OrderServiceTest {
 		orderPartList.add(orderPart3);
 		
 		user0 = new User(0, "user0", "password0", "user", 150, null);
-		user1 = new User(1, "user1", "password1", "user", 151, null);
-		user2 = new User(2, "user2", "password2", "user", 152, null);
-		user3 = new User(3, "user3", "password3", "user", 153, null);
 		
 		
 		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(orderPartList);
@@ -140,26 +134,22 @@ public class OrderServiceTest {
 	}
 	
 	@Test
-	@DisplayName("getMyOrders() return only orders belonging to logged in user")
-	void getMyOrders_Return_Only_Orders_Belonging_To_User() {
-		
-	}
-	
-	@Test
-	@DisplayName("getAllOrders() return every order")
-	void getAllOrders_Return_Every_Order() {
-		
-	}
-	
-	@Test
 	@DisplayName("checkAvailability() return true only when every every product is available with expected quantity")
 	void checkAvailability_Return_True_When_Everything_Is_Available() {
+		List<OrderPart> orderPartListWrongQuantity = new ArrayList<OrderPart>();
+		orderPartListWrongQuantity.add(new OrderPart(0, 7777, null, product0));
 		
+		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(orderPartListWrongQuantity);
+		assertTrue(orderService.checkAvailability() == false);
+		
+		Mockito.when(shoppingCartService.getOrderPartList()).thenReturn(this.orderPartList);
+		assertTrue(orderService.checkAvailability() == true);
 	}
 	
 	@Test
 	@DisplayName("getOrderCost() calculate order cost")
 	void getOrderCost_Calculate_Order_Cost() {
+		assertTrue(orderService.getOrderCost() == 32.2);
 		
 	}
 }
