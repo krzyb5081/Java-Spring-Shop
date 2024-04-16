@@ -1,4 +1,4 @@
-package com.shop.project.service;
+ package com.shop.project.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,22 +19,36 @@ public class ProductServiceTest {
 	ProductService productService;
 	
 	ProductRepository productRepository = Mockito.mock(ProductRepository.class);
+
+
+	Product product0;
+	Product product1;
+	Product product2;
+	Product product3;
+	Optional<Product> optionalProduct0;
+	Optional<Product> optionalProduct1;
+	Optional<Product> optionalProduct2;
+	Optional<Product> optionalProduct3;
+	Optional<Product> optionalEmptyProduct4;
+		
+	List<Product> productList;
+
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		productService = new ProductService(productRepository);
 		
-		Product product0 = new Product(0, "product0", "description0", 1.00, 100);
-		Product product1 = new Product(1, "product1", "description1", 1.00, 100);
-		Product product2 = new Product(2, "product2", "description2", 1.00, 100);
-		Product product3 = new Product(3, "product3", "description3", 1.00, 100);
-		Optional<Product> optionalProduct0 = Optional.of(product0);
-		Optional<Product> optionalProduct1 = Optional.of(product1);
-		Optional<Product> optionalProduct2 = Optional.of(product2);
-		Optional<Product> optionalProduct3 = Optional.of(product3);
-		Optional<Product> optionalEmptyProduct4 = Optional.empty();
+		product0 = new Product(0, "product0", "description0", 1.00, 100);
+		product1 = new Product(1, "product1", "description1", 1.00, 100);
+		product2 = new Product(2, "product2", "description2", 1.00, 100);
+		product3 = new Product(3, "product3", "description3", 1.00, 100);
+		optionalProduct0 = Optional.of(product0);
+		optionalProduct1 = Optional.of(product1);
+		optionalProduct2 = Optional.of(product2);
+		optionalProduct3 = Optional.of(product3);
+		optionalEmptyProduct4 = Optional.empty();
 		
-		List<Product> productList = new ArrayList<Product>();
+		productList = new ArrayList<Product>();
 		productList.add(product0);
 		productList.add(product1);
 		productList.add(product2);
@@ -57,8 +71,6 @@ public class ProductServiceTest {
 	@Test
 	@DisplayName("GetProductById() return product with given id")
 	void GetProductById__Return_Product_With_Given_Id() {
-		Product product1 = new Product(1, "product1", "description1", 1.00, 100);
-		
 		Product foundProduct = productService.getProductById(1);
 		assertEquals(product1, foundProduct);
 	}
@@ -74,8 +86,6 @@ public class ProductServiceTest {
 	@Test
 	@DisplayName("DecreaseProductQuantity() decrease available quantity of product with given id and returns updated product")
 	void DecreaseProductQuantity__Decrease_Available_Quantity_Of_Product_With_Given_Id_And_Returns_Updated_Product() {
-		Product product2 = new Product(2, "product2", "description2", 1.00, 100);
-		
 		int decreaseQuantityBy = 23;
 		Product updatedProduct = productService.decreaseProductQuantity(2, decreaseQuantityBy);
 		assertEquals(product2.getQuantityAvailable() - decreaseQuantityBy, updatedProduct.getQuantityAvailable());
