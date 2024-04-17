@@ -86,11 +86,9 @@ public class ProductServiceTest {
 	@Test
 	@DisplayName("DecreaseProductQuantity() decrease available quantity of product with given id and returns updated product")
 	void DecreaseProductQuantity__Decrease_Available_Quantity_Of_Product_With_Given_Id_And_Returns_Updated_Product() {
-		int decreaseQuantityBy = 23;
-		Product updatedProduct = productService.decreaseProductQuantity(2, decreaseQuantityBy);
-		assertEquals(product2.getQuantityAvailable() - decreaseQuantityBy, updatedProduct.getQuantityAvailable());
+		Product updatedProduct = productService.decreaseProductQuantity(2, 23);
+		assertEquals(updatedProduct.getQuantityAvailable(), 77);
 		
-		product2.setQuantityAvailable(product2.getQuantityAvailable() - decreaseQuantityBy);
 		assertEquals(product2, updatedProduct);
 	}
 	
