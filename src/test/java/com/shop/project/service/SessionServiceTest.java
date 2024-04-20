@@ -15,6 +15,8 @@ public class SessionServiceTest {
 	
 	private Session session = Mockito.mock(Session.class);
 	private UserService userService = Mockito.mock(UserService.class);
+	private User user = Mockito.mock(User.class);
+	
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -26,11 +28,25 @@ public class SessionServiceTest {
 		User user2 = new User(2, "user2", "password2", "user", 152, null);
 		User user3 = new User(3, "user3", "password3", "user", 153, null);
 		
-		Mockito.when(userService.getByUserName("user0")).thenReturn(user0);
-		Mockito.when(userService.getByUserName("user1")).thenReturn(user1);
-		Mockito.when(userService.getByUserName("user2")).thenReturn(user2);
-		Mockito.when(userService.getByUserName("user3")).thenReturn(user3);
-		Mockito.when(userService.getByUserName("notRegisteredUser")).thenReturn(null);
+		
+		Mockito.doAnswer(arguments -> {
+			return user0;
+		}).when(userService).getByUserName(user0.getUserName());
+		Mockito.doAnswer(arguments -> {
+			return user1;
+		}).when(userService).getByUserName(user1.getUserName());
+		Mockito.doAnswer(arguments -> {
+			return user2;
+		}).when(userService).getByUserName(user2.getUserName());
+		Mockito.doAnswer(arguments -> {
+			return user3;
+		}).when(userService).getByUserName(user3.getUserName());
+		Mockito.doAnswer(arguments -> {
+			return null;
+		}).when(userService).getByUserName("notRegisteredUser");
+		
+		Mockito.when(user.getUserName()).thenReturn("user1");
+		Mockito.when(user.getPassword()).thenReturn("password1");
 		
 	}
 
@@ -38,19 +54,22 @@ public class SessionServiceTest {
 	void LoginUser__Registered_User__Set_Id_And_Username() {
 		User registeredUser = new User(1, "user1", "password1", null, 0, null);
 		
+		
 		Mockito.doAnswer(arguments -> {
 			Long userId = arguments.getArgument(0);
-			assertEquals(1L, userId);
+			assertEquals(registeredUser.getId(), userId);
 			return null;
 		}).when(session).setUserId(registeredUser.getId());
 		
 		Mockito.doAnswer(arguments -> {
 			String userName = arguments.getArgument(0);
-			assertEquals("user1", userName);
+			assertEquals(registeredUser.getUserName(), userName);
 			return null;
 		}).when(session).setUserName(registeredUser.getUserName());
 		
-		sessionService.loginUser(registeredUser);
+		Session session = sessionService.loginUser(registeredUser);
+		
+		assertEquals(session.getUserId(), registeredUser.getId());
 	}
 	
 	@Test
