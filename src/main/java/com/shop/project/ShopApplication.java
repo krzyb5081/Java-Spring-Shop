@@ -11,3 +11,6 @@ public class ShopApplication {
 	}
 
 }
+
+
+todo: user have to pay money from account after making order
